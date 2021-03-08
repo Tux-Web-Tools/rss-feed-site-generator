@@ -1,0 +1,9 @@
+{% extends 'rss_feed/feed_site.html.twig' %}
+
+{% block title %}{{ podcast.title }} - {{ podcast.description }}{% endblock %}
+
+{% block feed_contents %}
+    {% for episode in episodes %}
+        {{ episode.title }} <br>
+    {% endfor %}
+{% endblock %}

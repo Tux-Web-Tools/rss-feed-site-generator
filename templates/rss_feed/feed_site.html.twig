@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ podcast.title }} - {{ podcast.description }}{% endblock %}
-
 {% block body %}
-    {% for episode in episodes %}
-        {{ episode.title }} <br>
-    {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="one-half column">
+                {% block feed_contents %}{% endblock %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

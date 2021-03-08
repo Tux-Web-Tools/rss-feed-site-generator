@@ -43,7 +43,7 @@ class RssFeedController extends AbstractController
             $this->episodes[] = $episode;
         }
 
-        return $this->render('rss_feed/feed_site.html.twig', [
+        return $this->render('rss_feed/episodes.html.twig', [
             'podcast' => [
                 'title' => $feed->channel->title,
                 'description' => $feed->channel->description,

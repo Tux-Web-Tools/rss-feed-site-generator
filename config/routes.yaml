@@ -1,3 +1,8 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+episodes:
+  path: /episodes/{feedUrl}
+  controller: App\Controller\RssFeedController::generateEpisodeSite
+  defaults:
+    feedUrl:

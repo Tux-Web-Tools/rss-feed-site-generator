@@ -23,6 +23,9 @@
             "public/.htaccess"
         ]
     },
+    "symfony/asset": {
+        "version": "v5.2.4"
+    },
     "symfony/cache": {
         "version": "v5.2.4"
     },

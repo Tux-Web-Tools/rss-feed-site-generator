@@ -1,9 +1,26 @@
 {% extends 'rss_feed/feed_site.html.twig' %}
 
+{% block language %}{{ podcast.language }}{% endblock %}
 {% block title %}{{ podcast.title }} - {{ podcast.description }}{% endblock %}
+
+{% block hero %}
+    {{ include('rss_feed/hero.html.twig', {hero: podcast}) }}
+{% endblock %}
 
 {% block feed_contents %}
     {% for episode in episodes %}
-        {{ episode.title }} <br>
+        <div class="row">
+            <div class="twelve column episode-date">
+                <span>{{ episode.pubDate|date("Y-m-d") }}</span>
+            </div>
+            <div class="row">
+                <div class="one-half column episode-title">
+                    <h2>{{ episode.title }}</h2> <br>
+                </div>
+                <div class="one-half column">
+                    STUFF
+                </div>
+            </div>
+        </div>
     {% endfor %}
 {% endblock %}

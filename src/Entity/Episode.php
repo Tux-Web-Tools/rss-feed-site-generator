@@ -2,113 +2,159 @@
 
 namespace App\Entity;
 
+use DateTime;
+use Exception;
 
 /**
  * Podcast episode
  */
 class Episode
 {
-
     /**
-     *
+     * @var string
      */
-    private $title;
+    private $title = '';
 
     /**
-     *
+     * @var string
      */
-    private $link;
+    private $link = '';
 
     /**
-     *
+     * @var DateTime
      */
     private $pubDate;
 
     /**
-     *
+     * @var string
      */
-    private $description;
+    private $description = '';
 
     /**
-     *
+     * @var string
      */
-    private $url;
+    private $url = '';
 
     /**
-     * Size in bytes
-     *
+     * @var string
      */
-    private $length;
+    private $length = '';
 
-    public function getTitle(): ?string
+    /**
+     * @var int
+     */
+    private $duration = 0;
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(?string $title): self
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
-    public function getLink(): ?string
+    /**
+     * @return string
+     */
+    public function getLink(): string
     {
         return $this->link;
     }
 
-    public function setLink(?string $link): self
+    /**
+     * @param string $link
+     */
+    public function setLink(string $link): void
     {
         $this->link = $link;
-
-        return $this;
     }
 
-    public function getPubDate(): ?string
-    {
-        return $this->pubDate;
-    }
-
-    public function setPubDate(?string $pubDate): self
-    {
-        $this->pubDate = date("d.m.Y", strtotime($pubDate));
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
+    /**
+     * @return string
+     */
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
     {
         $this->description = $description;
-
-        return $this;
     }
 
-    public function getUrl(): ?string
+    /**
+     * @return string
+     */
+    public function getUrl(): string
     {
         return $this->url;
     }
 
-    public function setUrl(?string $url): self
+    /**
+     * @param string $url
+     */
+    public function setUrl(string $url): void
     {
         $this->url = $url;
-
-        return $this;
     }
 
-    public function getLength(): ?string
+    /**
+     * @return string
+     */
+    public function getLength(): string
     {
         return $this->length;
     }
 
-    public function setLength(?string $length): self
+    /**
+     * @param string $length
+     */
+    public function setLength(string $length): void
     {
         $this->length = $length;
+    }
 
-        return $this;
+    /**
+     * @return int
+     */
+    public function getDuration(): int
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param int $duration
+     */
+    public function setDuration(int $duration): void
+    {
+        $this->duration = $duration;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getPubDate()
+    {
+        return $this->pubDate;
+    }
+
+    /**
+     * @param string|null $pubDate
+     * @throws Exception
+     */
+    public function setPubDate(?string $pubDate): void
+    {
+        $this->pubDate = new DateTime(date("Y-m-d", strtotime($pubDate)));
     }
 }

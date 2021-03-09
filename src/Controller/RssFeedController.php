@@ -6,6 +6,8 @@ use App\Entity\Episode;
 use Exception;
 use SimpleXMLElement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -15,6 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class RssFeedController extends AbstractController
 {
+    const BITRATE_KBPS = 192;
+
+    const PAGINATION_ITEMS = 10;
+
     /**
      * @var array
      */
@@ -39,7 +45,10 @@ class RssFeedController extends AbstractController
             $episode->setDescription($item->description);
             $episode->setUrl($item->enclosure['url']);
             $episode->setLength($item->enclosure["length"]);
-
+            $episode->setDuration($this->calculateMp3Durarion(
+                self::BITRATE_KBPS,
+                $item->enclosure["length"])
+            );
             $this->episodes[] = $episode;
         }
 
@@ -47,7 +56,8 @@ class RssFeedController extends AbstractController
             'podcast' => [
                 'title' => $feed->channel->title,
                 'description' => $feed->channel->description,
-                'image' => $feed->channel->image->url
+                'image' => $feed->channel->image->url,
+                'language' => $feed->channel->language
             ],
             'episodes' => $this->episodes,
         ]);
@@ -67,5 +77,19 @@ class RssFeedController extends AbstractController
             // Todo: Log error
             return null;
         }
+    }
+
+    /**
+     * Calculates approximate duration of mp3 file
+     *
+     * @param $bitrate
+     * @param $length
+     * @return false|float
+     */
+    private function calculateMp3Durarion($bitrate, $length)
+    {
+        $seconds = ((int)$length * 0.008)/$bitrate;
+
+        return floor($seconds/60);
     }
 }

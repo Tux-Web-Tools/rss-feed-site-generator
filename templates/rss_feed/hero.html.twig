@@ -1,0 +1,11 @@
+{% block hero %}
+    <div class="hero-bg">
+        <div class="hero-text">
+            <img alt="{{ hero.title }}" src="{{ hero.image }}">
+            <div>
+                <h1>{{ hero.title }}</h1>
+                <p>{{ hero.description }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

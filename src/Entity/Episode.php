@@ -16,6 +16,8 @@ class Episode
     private $title = '';
 
     /**
+     * Link to the original page
+     *
      * @var string
      */
     private $link = '';
@@ -31,11 +33,15 @@ class Episode
     private $description = '';
 
     /**
+     * Url of the audio file
+     *
      * @var string
      */
     private $url = '';
 
     /**
+     * Size in byte of audio file
+     *
      * @var string
      */
     private $length = '';
@@ -44,6 +50,11 @@ class Episode
      * @var int
      */
     private $duration = 0;
+
+    /**
+     * @var float
+     */
+    private $filesize = 0.0;
 
     /**
      * @return string
@@ -156,5 +167,21 @@ class Episode
     public function setPubDate(?string $pubDate): void
     {
         $this->pubDate = new DateTime(date("Y-m-d", strtotime($pubDate)));
+    }
+
+    /**
+     * @return float
+     */
+    public function getFilesize(): float
+    {
+        return $this->filesize;
+    }
+
+    /**
+     * @param int $filesize
+     */
+    public function setFilesize(int $filesize): void
+    {
+        $this->filesize = $filesize * 0.000001;
     }
 }

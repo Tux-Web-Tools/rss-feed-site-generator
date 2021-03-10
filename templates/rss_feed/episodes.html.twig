@@ -4,12 +4,13 @@
 {% block title %}{{ podcast.title }} - {{ podcast.description }}{% endblock %}
 
 {% block hero %}
-    {{ include('rss_feed/hero.html.twig', {hero: podcast}) }}
+    {{ include('rss_feed/_hero.html.twig', {hero: podcast}) }}
 {% endblock %}
 
 {% block feed_contents %}
+    {% if episodes %}
     {% for episode in episodes %}
-        <div class="row">
+        <div class="row episode">
             <div class="twelve column episode-date">
                 <span>{{ episode.pubDate|date("Y-m-d") }}</span>
             </div>
@@ -18,9 +19,25 @@
                     <h2>{{ episode.title }}</h2> <br>
                 </div>
                 <div class="one-half column">
-                    STUFF
+                    <p>{{ episode.description }}</p>
+                    <audio class="episodePlayer" controls preload="none">
+                        <source src="{{ episode.url }}" type="audio/mpeg">
+                    </audio>
+                    <p>Podcast: <a href="{{ episode.url }}" download>Download</a> ({{ episode.duration }} min | {{ episode.filesize|round(1, 'floor') }} MB)</p>
                 </div>
             </div>
         </div>
     {% endfor %}
+    {% else %}
+        {{ include('rss_feed/error.html.twig', {message: message}) }}
+    {% endif %}
+{% endblock %}
+
+{% block pagination %}
+    {{ include('rss_feed/_pagination.html.twig', {pagination: pagination}) }}
+{% endblock %}
+{% block footer %}
+    {% if legal %}
+        {{ include('rss_feed/_footer.html.twig', {legal: legal}) }}
+    {% endif %}
 {% endblock %}

@@ -1,0 +1,75 @@
+{# based on: https://gist.github.com/SimonSimCity/4594748 #}
+{% if pagination.maxPages > 1 %}
+
+    {# the number of first and last pages to be displayed #}
+    {% set extremePagesLimit = 1 %}
+
+    {# the number of pages that are displayed around the active page #}
+    {% if pagination.page == 1 or pagination.page ==  pagination.maxPages %}
+        {% set nearbyPagesLimit = 2 %}
+    {% else %}
+        {% set nearbyPagesLimit = 1 %}
+    {% endif %}
+
+    {% set pageBack = pagination.page - 1 %}
+    {% set pageNext = pagination.page + 1 %}
+
+    {% if currentFilters is not defined %}{% set currentFilters = {} %}{% endif %}
+    {% if paginationPath is not defined %}{% set paginationPath = app.request.attributes.get('_route') %}{% endif %}
+
+    <div class="row">
+        <div class="twelve column center">
+            <div class="pagination center">
+                {% if pagination.page > 1 %}
+                    <a {{ pagination.page != 1 ? 'href=?page=' ~ pageBack : 'class="pagination-disabled"' }}>&laquo;</a>
+
+                    {% for i in range(1, extremePagesLimit) %}
+                        {% if ( i < pagination.page - nearbyPagesLimit ) %}
+                            <a {{ i != 1 ? 'class="mobile-hide"'}} href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if extremePagesLimit + 1 < pagination.page - nearbyPagesLimit %}
+                        <a class="sep-dots pagination-disabled">...</a>
+                    {% endif %}
+
+                    {% for i in range(pagination.page-nearbyPagesLimit, pagination.page-1) %}
+                        {% if ( i > 0 ) %}
+                            <a {{ i != 1 ? 'class="mobile-hide"'}} href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <a class="active"
+                   href="{{ path(paginationPath, currentFilters|merge({ page: pagination.page })) }}">{{ pagination.page }}</a>
+
+                {% if pagination.page < pagination.maxPages %}
+                    {% for i in range(pagination.page+1, pagination.page + nearbyPagesLimit) %}
+                        {% if ( i <= pagination.maxPages ) %}
+                            <a {{ i != pagination.maxPages ? 'class="mobile-hide"'}} href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if  (pagination.maxPages - extremePagesLimit) > (pagination.page + nearbyPagesLimit) %}
+                        <a class="sep-dots pagination-disabled">...</a>
+                    {% endif %}
+
+                    {% if pagination.page == pagination.maxPages %}
+
+                    {% endif %}
+
+                    {% for i in range(pagination.maxPages - extremePagesLimit+1, pagination.maxPages) %}
+                        {% if ( i > pagination.page + nearbyPagesLimit ) %}
+                            <a {{ i != pagination.maxPages ? 'class="mobile-hide"'}} href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    <a {{ pagination.page != pagination.maxPages ? 'href=?page=' ~ pageNext : 'class="pagination-disabled"' }}>&raquo;</a>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+

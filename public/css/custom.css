@@ -119,11 +119,25 @@ a.mobile-hide {
 }
 
 .episode-title {
-    text-align: right;
+    text-align: left;
 }
 
 .episode-title h2 {
     font-size: 3.0rem;
+}
+
+.episode-audio {
+    width: 100%;
+}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (min-width: 550px) {
+    .episode-title {
+        text-align: right;
+    }
+    .episode-audio {
+        width: unset;
+    }
 }
 
 /* Footer */

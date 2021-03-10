@@ -19,8 +19,8 @@
                     <h2>{{ episode.title }}</h2> <br>
                 </div>
                 <div class="one-half column">
-                    <p>{{ episode.description }}</p>
-                    <audio class="episodePlayer" controls preload="none">
+                    <p>{{ episode.description|striptags('<a>')|raw }}</p>
+                    <audio class="episode-audio" controls preload="none">
                         <source src="{{ episode.url }}" type="audio/mpeg">
                     </audio>
                     <p>Podcast: <a href="{{ episode.url }}" download>Download</a> ({{ episode.duration }} min | {{ episode.filesize|round(1, 'floor') }} MB)</p>

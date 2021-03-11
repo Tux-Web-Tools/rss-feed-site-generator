@@ -3,8 +3,8 @@
     "description": "Generate sites from RSS feeds",
     "type": "project",
     "license": "proprietary",
-    "version": "0.9.0",
-    "minimum-stability": "beta",
+    "version": "0.9.1",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
         "php": ">=7.2.5",

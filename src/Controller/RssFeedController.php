@@ -8,6 +8,7 @@ use SimpleXMLElement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class RssFeedController
@@ -24,7 +25,7 @@ class RssFeedController extends AbstractController
     /**
      * Limit of feed items
      */
-    const ITEM_PAGE_LIMIT = 10;
+    const ITEM_LIMIT = 10;
 
     /**
      * @var array
@@ -41,15 +42,20 @@ class RssFeedController extends AbstractController
      */
     public function generateEpisodeSite(Request $request, $feedUrl)
     {
+        // Include user-specific values
+        $userConfig = Yaml::parseFile($this->getParameter('kernel.project_dir') . '/public/user/config.yaml');
+
         if (!($feed = $this->getFeed($feedUrl))) {
             return $this->render('rss_feed/error.html.twig', [
-                'message' => 'No valid rss feed was supplied.'
+                'message' => $userConfig['messages']['feed_error']
             ]);
         }
 
-        $page = ($request->get('page')) ? $request->get('page') : 1;
-        $startItem = $page * self::ITEM_PAGE_LIMIT - self::ITEM_PAGE_LIMIT;
-        $maxItem = $startItem + self::ITEM_PAGE_LIMIT;
+        $itemLimit = ($userConfig['functional']['item_limit']) ?: self::ITEM_LIMIT;
+        $page = ($request->get('page')) ?: 1;
+        $startItem = $page * $itemLimit - $itemLimit;
+        $maxItem = $startItem + $itemLimit;
+        $bitrateKbps = ($userConfig['functional']['bitrate_kbps']) ?: self::BITRATE_KBPS;
 
         // Fetch rss items
         $items = [];
@@ -61,7 +67,7 @@ class RssFeedController extends AbstractController
         $maxItems = ($maxItem < count($items)) ? $maxItem : count($items);
 
         // Pagination
-        $maxPages = ceil(count($items) / self::ITEM_PAGE_LIMIT);
+        $maxPages = ceil(count($items) / $itemLimit);
 
         for ($i = $startItem; $i < $maxItems; $i++) {
             $episode = new Episode();
@@ -72,7 +78,7 @@ class RssFeedController extends AbstractController
             $episode->setUrl($items[$i]->enclosure['url']);
             $episode->setLength($items[$i]->enclosure["length"]);
             $episode->setDuration($this->calculateMp3Durarion(
-                self::BITRATE_KBPS,
+                $bitrateKbps,
                 $items[$i]->enclosure["length"])
             );
             $episode->setFilesize($episode->getLength());
@@ -91,11 +97,8 @@ class RssFeedController extends AbstractController
                 'page' => $page,
                 'maxPages' => $maxPages
             ],
-            'legal' => [
-                'copyright' => '',
-                'imprint'   => ''
-            ],
-            'message' => 'No episodes were found.'
+            'user' => $userConfig,
+            'message' => $userConfig['messages']['no_results']
         ]);
     }
 

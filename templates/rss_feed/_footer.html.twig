@@ -1,3 +1,3 @@
 <footer>
-    © {{ "now"|date("Y") }} {{ legal.copyright}} {% if legal.imprint %}| <a target="_blank" href="{{ legal.imprint }}">Imprint</a>{% endif %}
+    © {{ "now"|date("Y") }} {{ user.legal.copyright}} {% if user.legal.imprint_url %}| <a target="_blank" href="{{ user.legal.imprint_url }}">{{ user.legal.imprint_link_name }}</a>{% endif %}
 </footer>

@@ -1,0 +1,13 @@
+<meta name="description" content="{{ metadata.description }}">
+<meta name="author" content="{{ metadata.title }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:url" content="{{ path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ metadata.title }}">
+<meta property="og:description" content="{{ metadata.description }}">
+<meta property="og:image" content="{{ metadata.image }}">
+{# Canonical Link #}
+{% if user.metadata.canonical_link %}
+<link rel="canonical" href="{{ user.metadata.canonical_link }}">
+{% endif %}

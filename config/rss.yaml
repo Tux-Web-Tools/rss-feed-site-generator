@@ -1,3 +1,4 @@
+# Copy and rename this file to ./rss.local.yaml
 functional:
   # Url of podcast/blog rss feed
   rss_feed_url: ''

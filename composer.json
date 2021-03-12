@@ -2,8 +2,8 @@
     "name": "tux-web-tools/rss-feed-site-generator",
     "description": "Generate sites from RSS feeds",
     "type": "project",
-    "license": "proprietary",
-    "version": "0.9.1",
+    "license": "MIT",
+    "version": "1.0.0",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {

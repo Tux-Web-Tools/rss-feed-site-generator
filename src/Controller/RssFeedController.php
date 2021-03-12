@@ -40,12 +40,14 @@ class RssFeedController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function generateEpisodeSite(Request $request, $feedUrl)
+    public function generateEpisodeSite(Request $request, $feedUrl = '')
     {
         // Include user-specific values
         $userConfig = Yaml::parseFile($this->getParameter('kernel.project_dir') . '/public/user/config.yaml');
 
-        if (!($feed = $this->getFeed($feedUrl))) {
+        $rssFeedUrl = ($userConfig['functional']['rss_feed_url']) ?: $feedUrl;
+
+        if (!($feed = $this->getFeed($rssFeedUrl))) {
             return $this->render('rss_feed/error.html.twig', [
                 'message' => $userConfig['messages']['feed_error']
             ]);

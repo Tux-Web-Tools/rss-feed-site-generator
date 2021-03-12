@@ -1,4 +1,6 @@
 functional:
+  # Url of podcast/blog rss feed
+  rss_feed_url: ''
   # Possible values: https://twig.symfony.com/doc/2.x/filters/date.html
   date_format: 'Y-m-d'
   # Used to calculate the duration of a audio file
@@ -8,7 +10,7 @@ functional:
 legal:
   # Displayed in footer
   copyright: ''
-  # Rendered in footer starts with https://
+  # Rendered in footer, should include http:// or https://
   imprint_url: ''
   # Displayed in footer
   imprint_link_name: ''

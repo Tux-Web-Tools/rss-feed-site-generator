@@ -54,7 +54,7 @@ The routing is defined in /config/routes.yaml.
 
 ## License
 
-TBA
+MIT
 
 ## Acknowledgments
 

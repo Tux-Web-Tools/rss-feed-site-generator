@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Episode;
+use App\Service\RssConfigurator;
 use Exception;
 use SimpleXMLElement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class RssFeedController
@@ -30,7 +30,28 @@ class RssFeedController extends AbstractController
     /**
      * @var array
      */
-    public $episodes = [];
+    private $episodes = [];
+
+    /**
+     * @var array
+     */
+    private $rssConfig;
+
+    /**
+     * @var RssConfigurator
+     */
+    private $rssConfigurator;
+
+    /**
+     * RssFeedController constructor.
+     *
+     * @param RssConfigurator $rssConfigurator
+     */
+    public function __construct(RssConfigurator $rssConfigurator)
+    {
+        $this->rssConfigurator = $rssConfigurator;
+        $this->rssConfig = $this->rssConfigurator->getRssConfiguration();
+    }
 
     /**
      * Renders Feed site
@@ -42,22 +63,19 @@ class RssFeedController extends AbstractController
      */
     public function generateEpisodeSite(Request $request, $feedUrl = '')
     {
-        // Include user-specific values
-        $userConfig = Yaml::parseFile($this->getParameter('kernel.project_dir') . '/public/user/config.yaml');
-
-        $rssFeedUrl = ($userConfig['functional']['rss_feed_url']) ?: $feedUrl;
+        $rssFeedUrl = ($this->rssConfig['functional']['rss_feed_url']) ?: $feedUrl;
 
         if (!($feed = $this->getFeed($rssFeedUrl))) {
             return $this->render('rss_feed/error.html.twig', [
-                'message' => $userConfig['messages']['feed_error']
+                'message' => $this->rssConfig['messages']['feed_error']
             ]);
         }
 
-        $itemLimit = ($userConfig['functional']['item_limit']) ?: self::ITEM_LIMIT;
+        $itemLimit = ($this->rssConfig['functional']['item_limit']) ?: self::ITEM_LIMIT;
         $page = ($request->get('page')) ?: 1;
         $startItem = $page * $itemLimit - $itemLimit;
         $maxItem = $startItem + $itemLimit;
-        $bitrateKbps = ($userConfig['functional']['bitrate_kbps']) ?: self::BITRATE_KBPS;
+        $bitrateKbps = ($this->rssConfig['functional']['bitrate_kbps']) ?: self::BITRATE_KBPS;
 
         // Fetch rss items
         $items = [];
@@ -99,8 +117,8 @@ class RssFeedController extends AbstractController
                 'page' => $page,
                 'maxPages' => $maxPages
             ],
-            'user' => $userConfig,
-            'message' => $userConfig['messages']['no_results']
+            'user' => $this->rssConfig,
+            'message' => $this->rssConfig['messages']['no_results']
         ]);
     }
 

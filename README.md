@@ -6,8 +6,14 @@ Symfony 5 application to generate a website for a given RSS feed, works best wit
 
 Clone the repo or download the source code. And install via composer in the root of the project directory:
 
+Development
 ```shell script
 composer install
+```
+
+Production
+```shell script
+composer install --no-dev --optimize-autoloader
 ```
 
 ## Configuration
@@ -20,6 +26,8 @@ cp rss.yaml rss.local.yaml
 ```
 
 ### Available configuration
+
+The only required parameter is _rss_feed_url_ containing the url of the RSS feed. To display "legal information" in the footer, _copyright_, _imprint_url_ and _imprint_link_name_ need to be provided.
 
 ```yaml
 functional:
@@ -54,8 +62,9 @@ The routing is defined in /config/routes.yaml.
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Acknowledgments
 
+* uses Skeleton responsive boilerplate https://github.com/dhg/Skeleton
 * twig pagination based on https://gist.github.com/SimonSimCity/4594748

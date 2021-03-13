@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Episode;
 use App\Service\RssConfigurator;
 use Exception;
+use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,14 +44,23 @@ class RssFeedController extends AbstractController
     private $rssConfigurator;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * RssFeedController constructor.
      *
      * @param RssConfigurator $rssConfigurator
+     * @param LoggerInterface $logger
      */
-    public function __construct(RssConfigurator $rssConfigurator)
+    public function __construct(
+        RssConfigurator $rssConfigurator,
+        LoggerInterface $logger)
     {
         $this->rssConfigurator = $rssConfigurator;
         $this->rssConfig = $this->rssConfigurator->getRssConfiguration();
+        $this->logger = $logger;
     }
 
     /**
@@ -133,10 +143,11 @@ class RssFeedController extends AbstractController
      */
     private function getFeed($feedUrl)
     {
-        try {
-            return simplexml_load_file($feedUrl);;
-        }catch (Exception $exception) {
-            // Todo: Log error
+        $feed = @simplexml_load_file($feedUrl);
+        if ($feed) {
+            return $feed;
+        } else {
+            $this->logger->error($this->rssConfig['messages']['feed_error']);
             return null;
         }
     }

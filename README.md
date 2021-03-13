@@ -14,6 +14,11 @@ composer install
 Production
 ```shell script
 composer install --no-dev --optimize-autoloader
+composer dump-env prod
+```
+Clear cache if needed
+```shell script
+php bin/console cache:clear
 ```
 
 ## Configuration
@@ -46,6 +51,8 @@ legal:
   imprint_url: ''
   # Displayed in footer
   imprint_link_name: ''
+# file name of custom header image, place in /public/image
+logo: ''
 metadata:
   # Url to original website
   canonical_link: ''

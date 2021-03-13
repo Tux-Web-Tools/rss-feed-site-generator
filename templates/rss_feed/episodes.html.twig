@@ -1,13 +1,13 @@
 {% extends 'rss_feed/feed_site.html.twig' %}
 
-{% block language %}{{ podcast.language }}{% endblock %}
-{% block title %}{{ podcast.title }} - {{ podcast.description }}{% endblock %}
+{% block language %}{{ feed.language }}{% endblock %}
+{% block title %}{{ feed.title }} - {{ feed.description }}{% endblock %}
 {% block metatags %}
-    {{ include('rss_feed/_metatags.html.twig', {metadata: podcast, user: user}) }}
+    {{ include('rss_feed/_metatags.html.twig', {metadata: feed, user: user}) }}
 {% endblock %}
 
 {% block hero %}
-    {{ include('rss_feed/_hero.html.twig', {hero: podcast, logo: user.logo}) }}
+    {{ include('rss_feed/_hero.html.twig', {hero: feed, logo: user.logo}) }}
 {% endblock %}
 
 {% block feed_contents %}

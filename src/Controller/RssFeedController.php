@@ -96,21 +96,24 @@ class RssFeedController extends AbstractController
             $episode->setPubDate($items[$i]->pubDate);
             $episode->setDescription($items[$i]->description);
             $episode->setUrl($items[$i]->enclosure['url']);
-            $episode->setLength($items[$i]->enclosure["length"]);
+            $episode->setLength($items[$i]->enclosure['length']);
             $episode->setDuration($this->calculateMp3Durarion(
                 $bitrateKbps,
-                $items[$i]->enclosure["length"])
+                $items[$i]->enclosure['length'])
             );
             $episode->setFilesize($episode->getLength());
             $this->episodes[] = $episode;
         }
+        //var_dump($request->getSchemeAndHttpHost().$request->getPathInfo());
 
         return $this->render('rss_feed/episodes.html.twig', [
-            'podcast' => [
+            'feed' => [
                 'title' => $feed->channel->title,
                 'description' => $feed->channel->description,
                 'image' => $feed->channel->image->url,
-                'language' => $feed->channel->language
+                'language' => $feed->channel->language,
+                'url' => $request->getSchemeAndHttpHost() .
+                    $request->getPathInfo()
             ],
             'episodes' => $this->episodes,
             'pagination' => [

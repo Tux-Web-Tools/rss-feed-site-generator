@@ -1,0 +1,23 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% set hero = {
+    'title': 'Oh no!',
+    'description': 'The page you requested was not found.',
+    'image': asset('image/error.jpg')} %}
+
+{% block body %}
+    {% block hero %}
+        {{ include('rss_feed/_hero.html.twig', {hero: hero}) }}
+    {% endblock %}
+    <div class="container margin-top">
+        <div class="row episode">
+            <div class="twelve column">
+                <h2>Nothing to see!</h2>
+
+                <p> Just return to the <a href="{{ path('episodes') }}">homepage</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

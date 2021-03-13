@@ -1,7 +1,14 @@
 {% block hero %}
+    {% if logo %}
+        {% set image = asset('image/' ~ logo) %}
+    {% else %}
+        {% set image = hero.image %}
+    {% endif %}
     <div class="hero-bg">
         <div class="hero-text">
-            <img alt="{{ hero.title }}" src="{{ hero.image }}">
+            {% if hero.image %}
+            <img alt="{{ hero.title }}" src="{{ image }}">
+            {% endif %}
             <div>
                 <h1>{{ hero.title }}</h1>
                 <p>{{ hero.description }}</p>

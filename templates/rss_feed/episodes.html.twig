@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block hero %}
-    {{ include('rss_feed/_hero.html.twig', {hero: podcast}) }}
+    {{ include('rss_feed/_hero.html.twig', {hero: podcast, logo: user.logo}) }}
 {% endblock %}
 
 {% block feed_contents %}

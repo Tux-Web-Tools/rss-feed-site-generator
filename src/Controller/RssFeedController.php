@@ -82,7 +82,8 @@ class RssFeedController extends AbstractController
         }
 
         $itemLimit = ($this->rssConfig['functional']['item_limit']) ?: self::ITEM_LIMIT;
-        $page = ($request->get('page')) ?: 1;
+        $getPage = ($request->get('page')) ? (int)$request->get('page') : 1;
+        $page = ($getPage > 0) ? $getPage : 1;
         $startItem = $page * $itemLimit - $itemLimit;
         $maxItem = $startItem + $itemLimit;
         $bitrateKbps = ($this->rssConfig['functional']['bitrate_kbps']) ?: self::BITRATE_KBPS;

@@ -2,8 +2,8 @@
 {% extends 'base.html.twig' %}
 
 {% set hero = {
-    'title': 'Oh no!',
-    'description': 'The page you requested was not found.',
+    'title': '',
+    'description': '',
     'image': asset('image/error.jpg')} %}
 
 {% block title %}Ooops, an error occurred...{% endblock %}
@@ -15,10 +15,10 @@
     <div class="container margin-top">
         <div class="row episode">
             <div class="twelve column">
-                <h2>Nothing to see!</h2>
+                <h1>Nothing to see!</h1>
 
-                <p> Just return to the <a href="{{ path('episodes') }}">homepage</a>.
-                </p>
+                <h2> Just return to the <a href="{{ path('episodes') }}">homepage</a>.
+                </h2>
             </div>
         </div>
     </div>

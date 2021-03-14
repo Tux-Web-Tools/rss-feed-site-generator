@@ -1,7 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends 'rss_feed/feed_site.html.twig' %}
 
-{% block title %}An Error occurred...{% endblock %}
+{% set hero = {
+    'title': '',
+    'description': '',
+    'image': asset('image/error.jpg')} %}
 
-{% block body %}
-    <p>{{ message }}</p>
+{% block title %}Ooops, an error occurred...{% endblock %}
+
+    {% block hero %}
+        {{ include('rss_feed/_hero.html.twig', {hero: hero, logo: user.logo}) }}
+    {% endblock %}
+
+{% block feed_contents %}
+    <div class="row">
+        <div class="twelve column">
+            <h1>Nothing to see!</h1>
+        </div>
+        <div class="row">
+            <div class="twelve column">
+                <h2>
+                    {% if user.messages.feed_error %}
+                        {{ user.messages.feed_error }}
+                    {% else %}
+                        Just return to the <a href="{{ path('episodes') }}">homepage</a>.
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+    </div>
 {% endblock %}

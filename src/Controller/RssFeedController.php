@@ -77,7 +77,7 @@ class RssFeedController extends AbstractController
 
         if (!($feed = $this->getFeed($rssFeedUrl))) {
             return $this->render('rss_feed/error.html.twig', [
-                'message' => $this->rssConfig['messages']['feed_error']
+                'user' => $this->rssConfig
             ]);
         }
 

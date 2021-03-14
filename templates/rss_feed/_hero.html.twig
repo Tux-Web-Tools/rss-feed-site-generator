@@ -10,8 +10,12 @@
             <img alt="{{ hero.title }}" src="{{ image }}">
             {% endif %}
             <div>
+                {% if hero.title %}
                 <h1>{{ hero.title }}</h1>
+                {% endif %}
+                {% if hero.description %}
                 <p>{{ hero.description }}</p>
+                {% endif %}
             </div>
         </div>
     </div>

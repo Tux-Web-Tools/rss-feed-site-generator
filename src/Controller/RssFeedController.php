@@ -114,7 +114,6 @@ class RssFeedController extends AbstractController
             $episode->setFilesize($episode->getLength());
             $this->episodes[] = $episode;
         }
-        //var_dump($request->getSchemeAndHttpHost().$request->getPathInfo());
 
         return $this->render('rss_feed/episodes.html.twig', [
             'feed' => [

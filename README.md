@@ -76,3 +76,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * uses Skeleton responsive boilerplate https://github.com/dhg/Skeleton
 * twig pagination based on https://gist.github.com/SimonSimCity/4594748
 * uses htmx https://htmx.org/
+* uses Green Audio Player https://github.com/greghub/green-audio-player

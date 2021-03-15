@@ -119,14 +119,7 @@ class RssFeedController extends AbstractController
         // Check if HTMX request
         if (!$request->server->has('HTTP_HX_REQUEST')) {
             return $this->render('rss_feed/podcast.html.twig', [
-                'feed' => [
-                    'title' => $feed->channel->title,
-                    'description' => $feed->channel->description,
-                    'image' => $feed->channel->image->url,
-                    'language' => $feed->channel->language,
-                    'url' => $request->getSchemeAndHttpHost() .
-                        $request->getPathInfo()
-                ],
+                'feed' => $this->getFeedTemplateVariables($feed, $request),
                 'episodes' => $this->episodes,
                 'pagination' => [
                     'page' => $page,
@@ -136,14 +129,7 @@ class RssFeedController extends AbstractController
             ]);
         } else {
            return $this->render('rss_feed/_episodes.html.twig', [
-               'feed' => [
-                   'title' => $feed->channel->title,
-                   'description' => $feed->channel->description,
-                   'image' => $feed->channel->image->url,
-                   'language' => $feed->channel->language,
-                   'url' => $request->getSchemeAndHttpHost() .
-                       $request->getPathInfo()
-               ],
+               'feed' => $this->getFeedTemplateVariables($feed, $request),
                'episodes' => $this->episodes,
                'pagination' => [
                    'page' => $page,
@@ -185,5 +171,24 @@ class RssFeedController extends AbstractController
         $seconds = ((int)$length * 0.008)/$bitrate;
 
         return floor($seconds/60);
+    }
+
+    /**
+     * Returns an array of templates feed variables
+     *
+     * @param $feed
+     * @param $request
+     * @return array
+     */
+    private function getFeedTemplateVariables($feed, $request)
+    {
+        return [
+            'title' => $feed->channel->title,
+            'description' => $feed->channel->description,
+            'image' => $feed->channel->image->url,
+            'language' => $feed->channel->language,
+            'url' => $request->getSchemeAndHttpHost() .
+                $request->getPathInfo()
+        ];
     }
 }

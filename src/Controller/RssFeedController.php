@@ -71,7 +71,7 @@ class RssFeedController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function generateEpisodeSite(Request $request, $feedUrl = '')
+    public function generatePodcastSite(Request $request, $feedUrl = '')
     {
         $rssFeedUrl = ($this->rssConfig['config']['rss_feed_url']) ?: $feedUrl;
 

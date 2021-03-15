@@ -3,6 +3,6 @@
 #    controller: App\Controller\DefaultController::index
 episodes:
   path: /{feedUrl}
-  controller: App\Controller\RssFeedController::generateEpisodeSite
+  controller: App\Controller\RssFeedController::generatePodcastSite
   defaults:
     feedUrl:

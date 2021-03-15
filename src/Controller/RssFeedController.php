@@ -73,7 +73,7 @@ class RssFeedController extends AbstractController
      */
     public function generateEpisodeSite(Request $request, $feedUrl = '')
     {
-        $rssFeedUrl = ($this->rssConfig['functional']['rss_feed_url']) ?: $feedUrl;
+        $rssFeedUrl = ($this->rssConfig['config']['rss_feed_url']) ?: $feedUrl;
 
         if (!($feed = $this->getFeed($rssFeedUrl))) {
             return $this->render('rss_feed/error.html.twig', [
@@ -81,12 +81,12 @@ class RssFeedController extends AbstractController
             ]);
         }
 
-        $itemLimit = ($this->rssConfig['functional']['item_limit']) ?: self::ITEM_LIMIT;
+        $itemLimit = ($this->rssConfig['config']['item_limit']) ?: self::ITEM_LIMIT;
         $getPage = ($request->get('page')) ? (int)$request->get('page') : 1;
         $page = ($getPage > 0) ? $getPage : 1;
         $startItem = $page * $itemLimit - $itemLimit;
         $maxItem = $startItem + $itemLimit;
-        $bitrateKbps = ($this->rssConfig['functional']['bitrate_kbps']) ?: self::BITRATE_KBPS;
+        $bitrateKbps = ($this->rssConfig['config']['bitrate_kbps']) ?: self::BITRATE_KBPS;
 
         // Fetch rss items
         $items = [];
@@ -166,7 +166,9 @@ class RssFeedController extends AbstractController
         if ($feed) {
             return $feed;
         } else {
-            $this->logger->error($this->rssConfig['messages']['feed_error']);
+            $this->logger->error(
+                $this->rssConfig['content']['messages']['feed_error']
+            );
             return null;
         }
     }

@@ -7,6 +7,6 @@
 <meta property="og:description" content="{{ metadata.description }}">
 <meta property="og:image" content="{{ metadata.image }}">
 {# Canonical Link #}
-{% if user.metadata.canonical_link %}
-<link rel="canonical" href="{{ user.metadata.canonical_link }}">
+{% if user.content.canonical_link %}
+<link rel="canonical" href="{{ user.content.canonical_link }}">
 {% endif %}

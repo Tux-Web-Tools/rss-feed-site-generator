@@ -18,15 +18,34 @@
                         </div>
                         <div class="one-half column">
                             <p>{{ episode.description|striptags('<a>')|raw }}</p>
-                            <audio class="episode-audio" controls preload="none">
-                                <source src="{{ episode.url }}" type="audio/mpeg">
-                            </audio>
+                            <div class="gap">
+                                <audio class="episode-audio"
+                                       preload="none">
+                                    <source src="{{ episode.url }}"
+                                            type="audio/mpeg">
+                                </audio>
+                            </div>
+                            <noscript>
+                                <audio class="episode-audio"
+                                       controls
+                                       preload="none">
+                                    <source src="{{ episode.url }}"
+                                            type="audio/mpeg">
+                                </audio>
+                            </noscript>
                             <p>Podcast: <a href="{{ episode.url }}" download>Download</a> ({{ episode.duration }} min
                                 | {{ episode.filesize|round(1, 'floor') }} MB)</p>
                         </div>
                     </div>
                 </div>
             {% endfor %}
+            <script>
+                // Init Green Audio Player on all .gap elements
+                GreenAudioPlayer.init({
+                    selector: '.gap',
+                    stopOthersOnPlay: true
+                });
+            </script>
         {% else %}
             {{ user.content.messages.no_result }}
         {% endif %}

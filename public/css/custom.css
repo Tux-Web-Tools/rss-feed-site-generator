@@ -126,8 +126,17 @@ a.mobile-hide {
     font-size: 3.0rem;
 }
 
+/* HTML5 audio player */
 .episode-audio {
     width: 100%;
+}
+
+/* Green Audio Player */
+div.gap {
+    width: 100%;
+    background-color: #eaeaea;
+    box-shadow: none;
+    margin-bottom: 10px;
 }
 
 /* Larger than phablet (also point when grid becomes active) */

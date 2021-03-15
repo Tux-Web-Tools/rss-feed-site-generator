@@ -2,10 +2,9 @@
 
 {% block body %}
     {% block hero %}{% endblock %}
-    <div class="container margin-top">
+    <div class="margin-top"
+         id="feed-content">
         {% block feed_contents %}{% endblock %}
-    </div>
-    <div class="container margin-bottom">
         {% block pagination %}{% endblock %}
     </div>
     {% block footer %}{% endblock %}

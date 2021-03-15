@@ -116,23 +116,42 @@ class RssFeedController extends AbstractController
             $this->episodes[] = $episode;
         }
 
-        return $this->render('rss_feed/episodes.html.twig', [
-            'feed' => [
-                'title' => $feed->channel->title,
-                'description' => $feed->channel->description,
-                'image' => $feed->channel->image->url,
-                'language' => $feed->channel->language,
-                'url' => $request->getSchemeAndHttpHost() .
-                    $request->getPathInfo()
-            ],
-            'episodes' => $this->episodes,
-            'pagination' => [
-                'page' => $page,
-                'maxPages' => $maxPages
-            ],
-            'user' => $this->rssConfig,
-            'message' => $this->rssConfig['messages']['no_results']
-        ]);
+        // Check if HTMX request
+        if (!$request->server->has('HTTP_HX_REQUEST')) {
+            return $this->render('rss_feed/podcast.html.twig', [
+                'feed' => [
+                    'title' => $feed->channel->title,
+                    'description' => $feed->channel->description,
+                    'image' => $feed->channel->image->url,
+                    'language' => $feed->channel->language,
+                    'url' => $request->getSchemeAndHttpHost() .
+                        $request->getPathInfo()
+                ],
+                'episodes' => $this->episodes,
+                'pagination' => [
+                    'page' => $page,
+                    'maxPages' => $maxPages
+                ],
+                'user' => $this->rssConfig,
+            ]);
+        } else {
+           return $this->render('rss_feed/_episodes.html.twig', [
+               'feed' => [
+                   'title' => $feed->channel->title,
+                   'description' => $feed->channel->description,
+                   'image' => $feed->channel->image->url,
+                   'language' => $feed->channel->language,
+                   'url' => $request->getSchemeAndHttpHost() .
+                       $request->getPathInfo()
+               ],
+               'episodes' => $this->episodes,
+               'pagination' => [
+                   'page' => $page,
+                   'maxPages' => $maxPages
+               ],
+               'user' => $this->rssConfig,
+           ]);
+        }
     }
 
     /**

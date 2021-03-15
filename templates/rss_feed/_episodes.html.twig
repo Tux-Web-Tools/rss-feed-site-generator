@@ -1,0 +1,38 @@
+{% block episodes %}
+    <div class="container">
+        {% if user.config.date_format %}
+            {% set dateFormat = user.config.date_format %}
+        {% else %}
+            {% set dateFormat = 'Y-m-d' %}
+        {% endif %}
+
+        {% if episodes %}
+            {% for episode in episodes %}
+                <div class="row episode">
+                    <div class="twelve column episode-date">
+                        <span>{{ episode.pubDate|date(dateFormat) }}</span>
+                    </div>
+                    <div class="row">
+                        <div class="one-half column episode-title">
+                            <h2>{{ episode.title }}</h2> <br>
+                        </div>
+                        <div class="one-half column">
+                            <p>{{ episode.description|striptags('<a>')|raw }}</p>
+                            <audio class="episode-audio" controls preload="none">
+                                <source src="{{ episode.url }}" type="audio/mpeg">
+                            </audio>
+                            <p>Podcast: <a href="{{ episode.url }}" download>Download</a> ({{ episode.duration }} min
+                                | {{ episode.filesize|round(1, 'floor') }} MB)</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            {{ user.content.messages.no_result }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block pagination %}
+    {{ include('rss_feed/_pagination.html.twig', {pagination: pagination}) }}
+{% endblock %}

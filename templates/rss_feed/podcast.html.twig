@@ -1,0 +1,26 @@
+{% extends 'rss_feed/feed_site.html.twig' %}
+
+{% block language %}{{ feed.language }}{% endblock %}
+{% block title %}{{ feed.title }} - {{ feed.description }}{% endblock %}
+{% block metatags %}
+    {{ include('rss_feed/_metatags.html.twig', {metadata: feed, user: user}) }}
+{% endblock %}
+
+{% block hero %}
+    {{ include('rss_feed/_hero.html.twig', {hero: feed, logo: user.content.logo}) }}
+{% endblock %}
+
+{% block feed_contents %}
+
+    {% block episodes %}
+        {{ include('rss_feed/_episodes.html.twig', {hero: feed, logo: user.content.logo}) }}
+    {% endblock %}
+
+{% endblock %}
+
+{% block pagination %}{% endblock %}
+{% block footer %}
+    {% if user.content.footer %}
+        {{ include('rss_feed/_footer.html.twig', {user: user}) }}
+    {% endif %}
+{% endblock %}

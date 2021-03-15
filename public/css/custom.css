@@ -135,9 +135,6 @@ a.mobile-hide {
     .episode-title {
         text-align: right;
     }
-    .episode-audio {
-        width: unset;
-    }
 }
 
 /* Footer */

@@ -32,7 +32,9 @@ cp rss.yaml rss.local.yaml
 
 ### Available configuration
 
-The only required parameter is _rss_feed_url_ containing the url of the RSS feed. 
+The only required parameters are _rss_feed_url_ containing the url of the RSS feed and _type_ to determine the site to be generated: currently only a podcast site (type _1_) is available.
+
+The parameter _description.use_content_ is used to define which property is used to fetch the items (episode/post) description.
 
 To display a custom logo different from the one the RSS feed provides, an image file can be placed in _/public/image_, the file name including file extension needs to be added to _logo_.
 
@@ -42,6 +44,12 @@ If the content is also displayed on another website, a _canonical_link_ can be a
 
 ```yaml
 config:
+  # Feed type: 1 == Podcast, 2 == Blog (TBA)
+  type: 1
+  # RSS Data field of description: 1 == content, 0 == description
+  # The field description is usually shorter and does not contain HTML tags
+  description:
+    use_content: 1
   # Url of podcast/blog rss feed
   rss_feed_url: ''
   # Possible values: https://twig.symfony.com/doc/2.x/filters/date.html
@@ -83,3 +91,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * twig pagination based on https://gist.github.com/SimonSimCity/4594748
 * uses htmx https://htmx.org/
 * uses Green Audio Player https://github.com/greghub/green-audio-player
+* uses SimplePie https://github.com/simplepie/simplepie

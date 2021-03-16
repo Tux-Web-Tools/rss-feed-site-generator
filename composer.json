@@ -12,6 +12,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-simplexml": "*",
+        "simplepie/simplepie": "^1.5",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.2.*",
         "symfony/console": "5.2.*",

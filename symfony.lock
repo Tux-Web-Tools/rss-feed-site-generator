@@ -11,6 +11,9 @@
     "psr/log": {
         "version": "1.1.3"
     },
+    "simplepie/simplepie": {
+        "version": "1.5.6"
+    },
     "symfony/apache-pack": {
         "version": "1.0",
         "recipe": {

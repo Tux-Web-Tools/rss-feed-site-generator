@@ -1,5 +1,11 @@
 # Copy and rename this file to ./rss.local.yaml
 config:
+  # Feed type: 1 == Podcast, 2 == Blog
+  type: 1
+  # RSS Data field of description: 1 == content, 0 == description
+  # The field description is usually shorter and does not contain HTML tags
+  description:
+    use_content: 1
   # Url of podcast/blog rss feed
   rss_feed_url: ''
   # Possible values: https://twig.symfony.com/doc/2.x/filters/date.html

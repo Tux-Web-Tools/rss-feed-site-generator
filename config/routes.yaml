@@ -1,8 +1,8 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-episodes:
+rss_feed:
   path: /{feedUrl}
-  controller: App\Controller\RssFeedController::generatePodcastSite
+  controller: App\Controller\RssFeedController::generateFeedSite
   defaults:
     feedUrl:

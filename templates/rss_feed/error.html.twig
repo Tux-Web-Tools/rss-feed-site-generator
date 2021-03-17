@@ -1,6 +1,6 @@
 {% extends 'rss_feed/feed_site.html.twig' %}
 
-{% set hero = {
+{% set feed = {
     'title': '',
     'description': '',
     'image': asset('image/error.jpg')} %}
@@ -8,7 +8,7 @@
 {% block title %}Ooops, an error occurred...{% endblock %}
 
     {% block hero %}
-        {{ include('rss_feed/_hero.html.twig', {hero: hero, logo: user.content.logo}) }}
+        {{ include('rss_feed/_hero.html.twig', {feed: feed, logo: rssConfig.logo}) }}
     {% endblock %}
 
 {% block feed_contents %}
@@ -19,8 +19,8 @@
         <div class="row">
             <div class="twelve column">
                 <h2>
-                    {% if user.content.messages.feed_error %}
-                        {{ user.content.messages.feed_error }}
+                    {% if rssConfig.feedError %}
+                        {{ rssConfig.feedError }}
                     {% else %}
                         Just return to the <a href="{{ path('episodes') }}">homepage</a>.
                     {% endif %}

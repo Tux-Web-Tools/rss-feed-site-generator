@@ -3,24 +3,22 @@
 {% block language %}{{ feed.language }}{% endblock %}
 {% block title %}{{ feed.title }} - {{ feed.description }}{% endblock %}
 {% block metatags %}
-    {{ include('rss_feed/_metatags.html.twig', {metadata: feed, user: user}) }}
+    {{ include('rss_feed/_metatags.html.twig', {feed: feed, pageConfig: pageConfig, rssConfig: rssConfig}) }}
 {% endblock %}
 
 {% block hero %}
-    {{ include('rss_feed/_hero.html.twig', {hero: feed, logo: user.content.logo}) }}
+    {{ include('rss_feed/_hero.html.twig', {feed: feed, logo: rssConfig.logo}) }}
 {% endblock %}
 
 {% block feed_contents %}
 
     {% block episodes %}
-        {{ include('rss_feed/_episodes.html.twig', {hero: feed, logo: user.content.logo}) }}
+        {{ include('rss_feed/_episodes.html.twig', {feed: feed, logo: rssConfig.logo}) }}
     {% endblock %}
 
 {% endblock %}
 
 {% block pagination %}{% endblock %}
 {% block footer %}
-    {% if user.content.footer %}
-        {{ include('rss_feed/_footer.html.twig', {user: user}) }}
-    {% endif %}
+    {{ include('rss_feed/_footer.html.twig', {rssConfig: rssConfig}) }}
 {% endblock %}

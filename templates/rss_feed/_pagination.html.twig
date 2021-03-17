@@ -2,20 +2,20 @@
 <div class="container margin-bottom">
 
 
-    {% if pagination.maxPages > 1 %}
+    {% if pageConfig.maxPages > 1 %}
 
         {# the number of first and last pages to be displayed #}
         {% set extremePagesLimit = 1 %}
 
         {# the number of pages that are displayed around the active page #}
-        {% if pagination.page == 1 or pagination.page ==  pagination.maxPages %}
+        {% if pageConfig.page == 1 or pageConfig.page ==  pageConfig.maxPages %}
             {% set nearbyPagesLimit = 2 %}
         {% else %}
             {% set nearbyPagesLimit = 1 %}
         {% endif %}
 
-        {% set pageBack = pagination.page - 1 %}
-        {% set pageNext = pagination.page + 1 %}
+        {% set pageBack = pageConfig.page - 1 %}
+        {% set pageNext = pageConfig.page + 1 %}
 
         {% if currentFilters is not defined %}{% set currentFilters = {} %}{% endif %}
         {% if paginationPath is not defined %}{% set paginationPath = app.request.attributes.get('_route') %}{% endif %}
@@ -23,14 +23,14 @@
         <div class="row">
             <div class="twelve column center">
                 <div class="pagination center">
-                    {% if pagination.page > 1 %}
+                    {% if pageConfig.page > 1 %}
                         <a hx-get="?page={{ pageBack }}#Top"
                            hx-target="#feed-content"
                            hx-push-url="true"
-                                {{ pagination.page != 1 ? 'href=?page=' ~ pageBack : 'class="pagination-disabled"' }}>&laquo;</a>
+                                {{ pageConfig.page != 1 ? 'href=?page=' ~ pageBack : 'class="pagination-disabled"' }}>&laquo;</a>
 
                         {% for i in range(1, extremePagesLimit) %}
-                            {% if ( i < pagination.page - nearbyPagesLimit ) %}
+                            {% if ( i < pageConfig.page - nearbyPagesLimit ) %}
                                 <a hx-get="?page={{ i }}#Top"
                                    hx-target="#feed-content"
                                    hx-push-url="true"
@@ -40,11 +40,11 @@
                             {% endif %}
                         {% endfor %}
 
-                        {% if extremePagesLimit + 1 < pagination.page - nearbyPagesLimit %}
+                        {% if extremePagesLimit + 1 < pageConfig.page - nearbyPagesLimit %}
                             <a class="sep-dots pagination-disabled">...</a>
                         {% endif %}
 
-                        {% for i in range(pagination.page-nearbyPagesLimit, pagination.page-1) %}
+                        {% for i in range(pageConfig.page-nearbyPagesLimit, pageConfig.page-1) %}
                             {% if ( i > 0 ) %}
                                 <a hx-get="?page={{ i }}#Top"
                                    hx-target="#feed-content"
@@ -55,37 +55,37 @@
                         {% endfor %}
                     {% endif %}
 
-                    <a hx-get="?page={{ pagination.page }}#Top"
+                    <a hx-get="?page={{ pageConfig.page }}#Top"
                        hx-target="#feed-content"
                        hx-push-url="true"
                        class="active"
-                       href="{{ path(paginationPath, currentFilters|merge({ page: pagination.page })) }}">{{ pagination.page }}</a>
+                       href="{{ path(paginationPath, currentFilters|merge({ page: pageConfig.page })) }}">{{ pageConfig.page }}</a>
 
-                    {% if pagination.page < pagination.maxPages %}
-                        {% for i in range(pagination.page+1, pagination.page + nearbyPagesLimit) %}
-                            {% if ( i <= pagination.maxPages ) %}
+                    {% if pageConfig.page < pageConfig.maxPages %}
+                        {% for i in range(pageConfig.page+1, pageConfig.page + nearbyPagesLimit) %}
+                            {% if ( i <= pageConfig.maxPages ) %}
                                 <a hx-get="?page={{ i }}#Top"
                                    hx-target="#feed-content"
                                    hx-push-url="true"
-                                        {{ i != pagination.maxPages ? 'class="mobile-hide"' }}
+                                        {{ i != pageConfig.maxPages ? 'class="mobile-hide"' }}
                                         href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a>
                             {% endif %}
                         {% endfor %}
 
-                        {% if  (pagination.maxPages - extremePagesLimit) > (pagination.page + nearbyPagesLimit) %}
+                        {% if  (pageConfig.maxPages - extremePagesLimit) > (pageConfig.page + nearbyPagesLimit) %}
                             <a class="sep-dots pagination-disabled">...</a>
                         {% endif %}
 
-                        {% if pagination.page == pagination.maxPages %}
+                        {% if pageConfig.page == pageConfig.maxPages %}
 
                         {% endif %}
 
-                        {% for i in range(pagination.maxPages - extremePagesLimit+1, pagination.maxPages) %}
-                            {% if ( i > pagination.page + nearbyPagesLimit ) %}
+                        {% for i in range(pageConfig.maxPages - extremePagesLimit+1, pageConfig.maxPages) %}
+                            {% if ( i > pageConfig.page + nearbyPagesLimit ) %}
                                 <a hx-get="?page={{ i }}#Top"
                                    hx-target="#feed-content"
                                    hx-push-url="true"
-                                        {{ i != pagination.maxPages ? 'class="mobile-hide"' }}
+                                        {{ i != pageConfig.maxPages ? 'class="mobile-hide"' }}
                                         href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a>
                             {% endif %}
                         {% endfor %}
@@ -93,7 +93,7 @@
                         <a hx-get="?page={{ pageNext }}#Top"
                            hx-target="#feed-content"
                            hx-push-url="true"
-                                {{ pagination.page != pagination.maxPages ? 'href=?page=' ~ pageNext : 'class="pagination-disabled"' }}>&raquo;</a>
+                                {{ pageConfig.page != pageConfig.maxPages ? 'href=?page=' ~ pageNext : 'class="pagination-disabled"' }}>&raquo;</a>
 
                     {% endif %}
                 </div>

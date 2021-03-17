@@ -1,7 +1,7 @@
 {# templates/bundles/TwigBundle/Exception/error.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% set hero = {
+{% set feed = {
     'title': '',
     'description': '',
     'image': asset('image/error.jpg')} %}
@@ -10,7 +10,7 @@
 
 {% block body %}
     {% block hero %}
-        {{ include('rss_feed/_hero.html.twig', {hero: hero}) }}
+        {{ include('rss_feed/_hero.html.twig', {feed: feed, logo: rssConfig.logo}) }}
     {% endblock %}
     <div class="container margin-top">
         <div class="row episode">

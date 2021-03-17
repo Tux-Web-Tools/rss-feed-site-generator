@@ -1,12 +1,12 @@
-<meta name="description" content="{{ metadata.description }}">
-<meta name="author" content="{{ metadata.title }}">
+<meta name="description" content="{{ feed.description }}">
+<meta name="author" content="{{ feed.title }}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:url" content="{{ metadata.url }}">
+<meta property="og:url" content="{{ pageConfig.url }}">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{{ metadata.title }}">
-<meta property="og:description" content="{{ metadata.description }}">
-<meta property="og:image" content="{{ metadata.image }}">
+<meta property="og:title" content="{{ feed.title }}">
+<meta property="og:description" content="{{ feed.description }}">
+<meta property="og:image" content="{{ feed.image }}">
 {# Canonical Link #}
-{% if user.content.canonical_link %}
-<link rel="canonical" href="{{ user.content.canonical_link }}">
+{% if rssConfig.canonicalLink %}
+<link rel="canonical" href="{{ rssConfig.canonicalLink }}">
 {% endif %}

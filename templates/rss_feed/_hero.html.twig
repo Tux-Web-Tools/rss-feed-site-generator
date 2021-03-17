@@ -2,19 +2,21 @@
     {% if logo %}
         {% set image = asset('image/' ~ logo) %}
     {% else %}
-        {% set image = hero.image %}
+        {% set image = feed.image %}
     {% endif %}
     <div class="hero-bg">
         <div class="hero-text">
-            {% if hero.image %}
-            <img alt="{{ hero.title }}" src="{{ image }}">
+            {% if image %}
+                <div class="fade-in">
+                    <img alt="{{ feed.title }}" src="{{ image }}">
+                </div>
             {% endif %}
             <div>
-                {% if hero.title %}
-                <h1>{{ hero.title }}</h1>
+                {% if feed.title %}
+                <h1>{{ feed.title }}</h1>
                 {% endif %}
-                {% if hero.description %}
-                <p>{{ hero.description }}</p>
+                {% if feed.description %}
+                <p>{{ feed.description }}</p>
                 {% endif %}
             </div>
         </div>

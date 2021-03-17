@@ -1,7 +1,7 @@
 {% block episodes %}
     <div class="container">
-        {% if user.config.date_format %}
-            {% set dateFormat = user.config.date_format %}
+        {% if rssConfig.dateFormat %}
+            {% set dateFormat = rssConfig.dateFormat %}
         {% else %}
             {% set dateFormat = 'Y-m-d' %}
         {% endif %}
@@ -18,7 +18,7 @@
                         </div>
                         <div class="one-half column">
                             <p>{{ episode.description|striptags('<a>')|raw }}</p>
-                            <div class="gap">
+                            <div class="gap fade-in">
                                 <audio class="episode-audio"
                                        preload="none">
                                     <source src="{{ episode.url }}"
@@ -47,11 +47,11 @@
                 });
             </script>
         {% else %}
-            {{ user.content.messages.no_results }}
+            {{ rssConfig.noResults }}
         {% endif %}
     </div>
 {% endblock %}
 
 {% block pagination %}
-    {{ include('rss_feed/_pagination.html.twig', {pagination: pagination}) }}
+    {{ include('rss_feed/_pagination.html.twig', {pageConfig: pageConfig}) }}
 {% endblock %}

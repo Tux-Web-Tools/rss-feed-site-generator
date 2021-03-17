@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Episode;
 use App\Entity\PageConfig;
+use App\Entity\RssConfig;
 use App\Service\RssConfigurator;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -51,7 +52,7 @@ class RssFeedController extends AbstractController
     private $episodes = [];
 
     /**
-     * @var array
+     * @var RssConfig
      */
     private $rssConfig;
 
@@ -99,26 +100,22 @@ class RssFeedController extends AbstractController
      */
     public function generateFeedSite(Request $request, $feedUrl = '')
     {
-        $rssFeedUrl = ($this->rssConfig['config']['rss_feed_url']) ?: $feedUrl;
+        $rssFeedUrl = ($this->rssConfig->getRssFeedUrl()) ?: $feedUrl;
 
         if (!($feed = $this->fetchFeed($rssFeedUrl))) {
             return $this->render('rss_feed/error.html.twig', [
-                'user' => $this->rssConfig
+                'user' => $this->rssConfig // Todo: Templates!
             ]);
         }
 
-        $pageConfig = $this->getPageConfig($request);
-
-        // Check the maximum item count
-        $maxItems = ($pageConfig->getMaxItem() < $feed->get_item_quantity()) ? $pageConfig->getMaxItem() : $feed->get_item_quantity();
-
-        // Pagination
-        $maxPages = ceil($feed->get_item_quantity() / $pageConfig->getItemLimit());
+        // Get page and item configuration
+        $limit = ($this->rssConfig->getItemLimit()) ?: self::ITEM_LIMIT;
+        $pageConfig = PageConfig::createFromRequest($request, $limit, $feed);
 
         $result = null;
-        if ($this->rssConfig['config']['type'] == self::PODCAST) {
+        if ($this->rssConfig->getType() == self::PODCAST) {
 
-            $this->episodes = $this->getEpisodes($feed, $pageConfig, $maxItems);
+            $this->episodes = $this->getEpisodes($feed, $pageConfig);
 
             // Check if HTMX request
             if (!$request->server->has('HTTP_HX_REQUEST')) {
@@ -131,12 +128,11 @@ class RssFeedController extends AbstractController
                 $this->getPodcastTemplateVariables(
                     $feed,
                     $request,
-                    $pageConfig,
-                    $maxPages
+                    $pageConfig
                 ));
         } else {
             $result = $this->render('rss_feed/error.html.twig', [
-                'user' => $this->rssConfig
+                'user' => $this->rssConfig // Todo: Template
             ]);
         }
 
@@ -172,38 +168,18 @@ class RssFeedController extends AbstractController
     }
 
     /**
-     * Get page and item configuration
-     *
-     * @param Request $request
-     * @return PageConfig
-     */
-    private function getPageConfig(Request $request): PageConfig
-    {
-        $pageConfig = new PageConfig();
-
-        $pageConfig->setItemLimit(($this->rssConfig['config']['item_limit']) ?: self::ITEM_LIMIT);
-        $getPage = ($request->get('page')) ? (int)$request->get('page') : 1;
-        $pageConfig->setPage(($getPage > 0) ? $getPage : 1);
-        $pageConfig->setStartItem($pageConfig->getPage() * $pageConfig->getItemLimit() - $pageConfig->getItemLimit());
-        $pageConfig->setMaxItem($pageConfig->getStartItem() + $pageConfig->getItemLimit());
-
-        return $pageConfig;
-    }
-
-    /**
      * Returns podcast episodes
      *
      * @param SimplePie $feed
      * @param PageConfig $pageConfig
-     * @param $maxItems
      * @return array
      * @throws Exception
      */
-    private function getEpisodes(SimplePie $feed, PageConfig $pageConfig, $maxItems): array
+    private function getEpisodes(SimplePie $feed, PageConfig $pageConfig): array
     {
-        $bitrateKbps = ($this->rssConfig['config']['bitrate_kbps']) ?: self::BITRATE_KBPS;
+        $bitrateKbps = ($this->rssConfig->getBitrateKbps()) ?: self::BITRATE_KBPS;
 
-        for ($i = $pageConfig->getStartItem(); $i < $maxItems; $i++) {
+        for ($i = $pageConfig->getStartItem(); $i < $pageConfig->getMaxItems(); $i++) {
 
             $item = $feed->get_item($i);
 
@@ -213,7 +189,7 @@ class RssFeedController extends AbstractController
             $episode->setPubDate($item->get_date());
             if (
                 $item->get_content() &&
-                $this->rssConfig['config']['description']['use_content'] == self::DESCRIPTION_USE_CONTENT
+                $this->rssConfig->isUseContent()
             ) {
                 $episode->setDescription($item->get_content());
             } else {
@@ -221,7 +197,7 @@ class RssFeedController extends AbstractController
             }
             $episode->setUrl($item->get_enclosure()->link);
             $episode->setLength($item->get_enclosure()->length);
-            if ($item->get_enclosure()->duration > 0) {
+            if ($item->get_enclosure()->duration) {
                 $episode->setDuration($item->get_enclosure()->duration / 60);
             } else {
                 $episode->setDuration($this->calculateMp3Duration(
@@ -257,24 +233,22 @@ class RssFeedController extends AbstractController
      * @param SimplePie $feed
      * @param Request $request
      * @param PageConfig $pageConfig
-     * @param $maxPages
      * @return array
      */
     private function getPodcastTemplateVariables(
         SimplePie $feed,
         Request $request,
-        PageConfig $pageConfig,
-        $maxPages
+        PageConfig $pageConfig
     )
     {
         return [
             'feed' => $this->getFeedTemplateVariables($feed, $request),
             'episodes' => $this->episodes,
-            'pagination' => [
+            'pagination' => [ // Todo: Template
                 'page' => $pageConfig->getPage(),
-                'maxPages' => $maxPages
+                'maxPages' => $pageConfig->getMaxPages()
             ],
-            'user' => $this->rssConfig,
+            'rssConfig' => $this->rssConfig,
         ];
     }
 

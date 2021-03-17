@@ -61,16 +61,9 @@ class Episode
      */
     public function getTitle(): string
     {
-        return $this->title;
+        return $this->item->get_title();
     }
 
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
 
     /**
      * @return string

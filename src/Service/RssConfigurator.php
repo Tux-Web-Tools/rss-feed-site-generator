@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\RssConfig;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -28,15 +29,16 @@ class RssConfigurator
     }
 
     /**
-     * @return array|mixed
+     * @return RssConfig|null
      */
-    public function getRssConfiguration()
+    public function getRssConfiguration(): ?RssConfig
     {
         $rssConfigFile = $this->params->get('kernel.project_dir') . '/config/rss.local.yaml';
         if (file_exists($rssConfigFile)) {
-            return Yaml::parseFile($rssConfigFile);
+
+            return RssConfig::createFromRequest(Yaml::parseFile($rssConfigFile));
         } else {
-            return [];
+            return null;
         }
     }
 }

@@ -29,7 +29,33 @@ class PageConfig
     /**
      * @var int
      */
-    private $maxItem = 0;
+    private $maxItems = 0;
+
+    /**
+     * @var int
+     */
+    private $maxPages = 0;
+
+    /**
+     * @param Request $request
+     * @param int $limit
+     * @param SimplePie $feed
+     * @return PageConfig
+     */
+    public static function createFromRequest(Request $request, int $limit, SimplePie $feed): PageConfig
+    {
+        $pageConfig = new self();
+
+        $pageConfig->setItemLimit($limit);
+        $getPage = ($request->get('page')) ? (int)$request->get('page') : 1;
+        $pageConfig->setPage(($getPage > 0) ? $getPage : 1);
+        $pageConfig->setStartItem($pageConfig->getPage() * $pageConfig->getItemLimit() - $pageConfig->getItemLimit());
+        $calcMaxItem = $pageConfig->getStartItem() + $pageConfig->getItemLimit();
+        $pageConfig->setMaxItems($calcMaxItem, $feed);
+        $pageConfig->setMaxPages($pageConfig->getItemLimit(), $feed);
+
+        return $pageConfig;
+    }
 
     /**
      * @return int
@@ -82,17 +108,35 @@ class PageConfig
     /**
      * @return int
      */
-    public function getMaxItem(): int
+    public function getMaxItems(): int
     {
-        return $this->maxItem;
+        return $this->maxItems;
     }
 
     /**
      * @param int $maxItem
+     * @param SimplePie $feed
      */
-    public function setMaxItem(int $maxItem): void
+    public function setMaxItems(int $maxItem, SimplePie $feed): void
     {
-        $this->maxItem = $maxItem;
+        $this->maxItems = min($maxItem, $feed->get_item_quantity());
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxPages(): int
+    {
+        return $this->maxPages;
+    }
+
+    /**
+     * @param int $itemLimit
+     * @param SimplePie $feed
+     */
+    public function setMaxPages(int $itemLimit, SimplePie $feed): void
+    {
+        $this->maxPages = ceil($feed->get_item_quantity() / $itemLimit);
     }
 
 }

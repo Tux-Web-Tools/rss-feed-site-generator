@@ -183,7 +183,7 @@ class RssFeedController extends AbstractController
 
             $item = $feed->get_item($i);
 
-            $episode = new Episode();
+            $episode = new Episode($item, $this->rssConfig['config']);
             $episode->setTitle($item->get_title());
             $episode->setLink($item->get_link());
             $episode->setPubDate($item->get_date());
@@ -242,7 +242,7 @@ class RssFeedController extends AbstractController
     )
     {
         return [
-            'feed' => $this->getFeedTemplateVariables($feed, $request),
+            'feed' => $feed, // feed._title // $this->getFeedTemplateVariables($feed, $request),
             'episodes' => $this->episodes,
             'pagination' => [ // Todo: Template
                 'page' => $pageConfig->getPage(),

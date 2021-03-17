@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use SimplePie;
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Class PageConfig
  *

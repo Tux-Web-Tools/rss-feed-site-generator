@@ -56,6 +56,11 @@ class Episode
      */
     private $filesize = 0.0;
 
+    public function __construct(\SimplePie_Item $item, array $config)
+    {
+            $this->item = $item;
+    }
+
     /**
      * @return string
      */

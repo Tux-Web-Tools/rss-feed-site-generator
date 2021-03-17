@@ -40,6 +40,11 @@ class PageConfig
     private $maxPages = 0;
 
     /**
+     * @var string
+     */
+    private $url = '';
+
+    /**
      * @param Request $request
      * @param int $limit
      * @param SimplePie $feed
@@ -56,6 +61,8 @@ class PageConfig
         $calcMaxItem = $pageConfig->getStartItem() + $pageConfig->getItemLimit();
         $pageConfig->setMaxItems($calcMaxItem, $feed);
         $pageConfig->setMaxPages($pageConfig->getItemLimit(), $feed);
+        $pageConfig->setUrl($request->getSchemeAndHttpHost() .
+            $request->getPathInfo());
 
         return $pageConfig;
     }
@@ -142,4 +149,19 @@ class PageConfig
         $this->maxPages = ceil($feed->get_item_quantity() / $itemLimit);
     }
 
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl(string $url): void
+    {
+        $this->url = $url;
+    }
 }

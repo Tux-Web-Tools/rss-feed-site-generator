@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 use Exception;
+use SimplePie_Item;
 
 /**
  * Podcast episode
@@ -11,54 +12,30 @@ use Exception;
 class Episode
 {
     /**
-     * @var string
+     * Bitrate in kbit/s
      */
-    private $title = '';
+    const BITRATE_KBPS = 192;
 
     /**
-     * Link to the original page
+     * @var SimplePie_Item
+     */
+    private $item;
+
+    /**
+     * @var RssConfig
+     */
+    private $rssConfig;
+
+    /**
+     * Episode constructor.
      *
-     * @var string
+     * @param SimplePie_Item $item
+     * @param RssConfig $rssConfig
      */
-    private $link = '';
-
-    /**
-     * @var DateTime
-     */
-    private $pubDate;
-
-    /**
-     * @var string
-     */
-    private $description = '';
-
-    /**
-     * Url of the audio file
-     *
-     * @var string
-     */
-    private $url = '';
-
-    /**
-     * Size in byte of audio file
-     *
-     * @var string
-     */
-    private $length = '';
-
-    /**
-     * @var int
-     */
-    private $duration = 0;
-
-    /**
-     * @var float
-     */
-    private $filesize = 0.0;
-
-    public function __construct(\SimplePie_Item $item, array $config)
+    public function __construct(SimplePie_Item $item, RssConfig $rssConfig)
     {
-            $this->item = $item;
+        $this->item = $item;
+        $this->rssConfig = $rssConfig;
     }
 
     /**
@@ -66,7 +43,7 @@ class Episode
      */
     public function getTitle(): string
     {
-        return $this->item->get_title();
+        return html_entity_decode($this->item->get_title());
     }
 
 
@@ -75,15 +52,7 @@ class Episode
      */
     public function getLink(): string
     {
-        return $this->link;
-    }
-
-    /**
-     * @param string $link
-     */
-    public function setLink(string $link): void
-    {
-        $this->link = $link;
+        return $this->item->get_link();
     }
 
     /**
@@ -91,15 +60,16 @@ class Episode
      */
     public function getDescription(): string
     {
-        return $this->description;
-    }
+        if (
+            $this->item->get_content() &&
+            $this->rssConfig->isUseContent()
+        ) {
+            $description = $this->item->get_content();
+        } else {
+            $description = $this->item->get_description();
+        }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
+        return $description;
     }
 
     /**
@@ -107,15 +77,7 @@ class Episode
      */
     public function getUrl(): string
     {
-        return $this->url;
-    }
-
-    /**
-     * @param string $url
-     */
-    public function setUrl(string $url): void
-    {
-        $this->url = $url;
+        return $this->item->get_enclosure()->link;
     }
 
     /**
@@ -123,15 +85,7 @@ class Episode
      */
     public function getLength(): string
     {
-        return $this->length;
-    }
-
-    /**
-     * @param string $length
-     */
-    public function setLength(string $length): void
-    {
-        $this->length = $length;
+        return $this->item->get_enclosure()->length;
     }
 
     /**
@@ -139,32 +93,26 @@ class Episode
      */
     public function getDuration(): int
     {
-        return $this->duration;
-    }
+        $bitrateKbps = ($this->rssConfig->getBitrateKbps()) ?: self::BITRATE_KBPS;
 
-    /**
-     * @param int $duration
-     */
-    public function setDuration(int $duration): void
-    {
-        $this->duration = $duration;
+        if ($this->item->get_enclosure()->duration) {
+            $duration = $this->item->get_enclosure()->duration / 60;
+        } else {
+            $duration = $this->calculateMp3Duration(
+                $bitrateKbps,
+                $this->item->get_enclosure()->length
+            );
+        }
+        return $duration;
     }
 
     /**
      * @return DateTime
+     * @throws Exception
      */
     public function getPubDate()
     {
-        return $this->pubDate;
-    }
-
-    /**
-     * @param string|null $pubDate
-     * @throws Exception
-     */
-    public function setPubDate(?string $pubDate): void
-    {
-        $this->pubDate = new DateTime(date("Y-m-d", strtotime($pubDate)));
+        return new DateTime(date("Y-m-d", strtotime($this->item->get_date())));
     }
 
     /**
@@ -172,14 +120,20 @@ class Episode
      */
     public function getFilesize(): float
     {
-        return $this->filesize;
+        return $this->item->get_enclosure()->length * 0.000001;
     }
 
     /**
-     * @param int $filesize
+     * Calculates approximate duration of mp3 file
+     *
+     * @param $bitrate
+     * @param $length
+     * @return false|float
      */
-    public function setFilesize(int $filesize): void
+    private function calculateMp3Duration($bitrate, $length)
     {
-        $this->filesize = $filesize * 0.000001;
+        $seconds = ((int)$length * 0.008)/$bitrate;
+
+        return floor($seconds/60);
     }
 }

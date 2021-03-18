@@ -26,6 +26,8 @@ content:
     description: ''
     # Overwrites the background color of the header (Hex code e.g. #333)
     background_color: ''
+    # Overwrites the font color of the header (Hex code e.g. #333)
+    font_color: ''
   footer:
     # Displayed in footer
     copyright: ''

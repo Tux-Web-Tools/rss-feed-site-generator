@@ -15,8 +15,17 @@ config:
   # How many items are displayed per page
   item_limit: 10
 content:
-  # file name of custom header image, place in /public/image
+  # File name of custom header image, place in /public/image
   logo: ''
+  # File name of custom favicon image, place in /public/image
+  favicon: ''
+  header:
+    # Overwrites the feed title of the header
+    title: ''
+    # Overwrites the feed description of the header
+    description: ''
+    # Overwrites the background color of the header (Hex code e.g. #333)
+    background_color: ''
   footer:
     # Displayed in footer
     copyright: ''
@@ -32,6 +41,4 @@ content:
     # Displayed if no results were found
     no_results: 'No results found.'
 
-# Important: bitrate_kbps and item_limit are also configured in
-# RssFeedController as a fallback and date_format is defined in
-# the corresponding template as fallback.
+# Important: most of the items have fallbacks in the code

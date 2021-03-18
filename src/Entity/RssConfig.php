@@ -104,6 +104,31 @@ class RssConfig
     private $noResults = '';
 
     /**
+     * @var string
+     */
+    private $favicon = '';
+
+    /**
+     * @var string
+     */
+    private $title = '';
+
+    /**
+     * @var string
+     */
+    private $description = '';
+
+    /**
+     * @var string
+     */
+    private $backgroundColor = '';
+
+    /**
+     * @var string
+     */
+    private $fontColor = '';
+
+    /**
      * @param array $rssConfigArray
      * @return RssConfig
      */
@@ -121,13 +146,17 @@ class RssConfig
         $rssConfig->setBitrateKbps($config['bitrate_kbps']);
         $rssConfig->setItemLimit($config['item_limit']);
         $rssConfig->setLogo($content['logo']);
+        $rssConfig->setFavicon($content['favicon']);
+        $rssConfig->setTitle($content['header']['title']);
+        $rssConfig->setDescription($content['header']['description']);
+        $rssConfig->setBackgroundColor($content['header']['background_color']);
+        $rssConfig->setFontColor($content['header']['font_color']);
         $rssConfig->setCopyright($content['footer']['copyright']);
         $rssConfig->setImprintUrl($content['footer']['imprint_url']);
         $rssConfig->setImprintLinkName($content['footer']['imprint_link_name']);
         $rssConfig->setCanonicalLink($content['canonical_link']);
         $rssConfig->setFeedError($content['messages']['feed_error']);
         $rssConfig->setNoResults($content['messages']['no_results']);
-
         return $rssConfig;
     }
 
@@ -337,6 +366,86 @@ class RssConfig
     public function setNoResults(string $noResults): void
     {
         $this->noResults = $noResults;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFavicon(): string
+    {
+        return $this->favicon;
+    }
+
+    /**
+     * @param string $favicon
+     */
+    public function setFavicon(string $favicon): void
+    {
+        $this->favicon = $favicon;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBackgroundColor(): string
+    {
+        return $this->backgroundColor;
+    }
+
+    /**
+     * @param string $backgroundColor
+     */
+    public function setBackgroundColor(string $backgroundColor): void
+    {
+        $this->backgroundColor = $backgroundColor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFontColor(): string
+    {
+        return $this->fontColor;
+    }
+
+    /**
+     * @param string $fontColor
+     */
+    public function setFontColor(string $fontColor): void
+    {
+        $this->fontColor = $fontColor;
     }
 }
 

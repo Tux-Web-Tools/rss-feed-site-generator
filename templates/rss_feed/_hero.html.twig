@@ -1,22 +1,42 @@
 {% block hero %}
+    {% if rssConfig.title is defined and rssConfig.title %}
+        {% set title = rssConfig.title %}
+    {% else %}
+        {% set title = feed.title %}
+    {% endif %}
+    {% if rssConfig.description is defined and rssConfig.description %}
+        {% set description = rssConfig.description %}
+    {% else %}
+        {% set description = feed.description %}
+    {% endif %}
+    {% if rssConfig.backgroundColor is defined and rssConfig.backgroundColor %}
+        {% set backgroundColor = 'style=background-color:' ~ rssConfig.backgroundColor ~ ';' %}
+    {% else %}
+        {% set backgroundColor = '' %}
+    {% endif %}
+    {% if rssConfig.fontColor is defined and rssConfig.fontColor %}
+        {% set fontColor = 'style=color:' ~ rssConfig.fontColor ~ ';' %}
+    {% else %}
+        {% set fontColor = '' %}
+    {% endif %}
     {% if logo %}
         {% set image = asset('image/' ~ logo) %}
     {% else %}
         {% set image = feed.image %}
     {% endif %}
-    <div class="hero-bg">
-        <div class="hero-text">
+    <div class="hero-bg" {{ backgroundColor ?: '' }}>
+        <div class="hero-text" {{ fontColor ?: '' }}>
             {% if image %}
                 <div class="fade-in">
-                    <img alt="{{ feed.title }}" src="{{ image }}">
+                    <img alt="{{ title }}" src="{{ image }}">
                 </div>
             {% endif %}
             <div>
-                {% if feed.title %}
-                <h1>{{ feed.title }}</h1>
+                {% if title %}
+                <h1>{{ title }}</h1>
                 {% endif %}
-                {% if feed.description %}
-                <p>{{ feed.description }}</p>
+                {% if description %}
+                <p>{{ description }}</p>
                 {% endif %}
             </div>
         </div>

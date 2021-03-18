@@ -8,16 +8,22 @@
 
 {% block title %}Ooops, an error occurred...{% endblock %}
 
+{% if rssConfig is defined and rssConfig.logo %}
+    {% set logo = rssConfig.logo %}
+{% else %}
+    {% set logo = '' %}
+{% endif %}
+
 {% block body %}
     {% block hero %}
-        {{ include('rss_feed/_hero.html.twig', {feed: feed, logo: rssConfig.logo}) }}
+        {{ include('rss_feed/_hero.html.twig', {feed: feed, logo: logo}) }}
     {% endblock %}
     <div class="container margin-top">
         <div class="row episode">
             <div class="twelve column">
                 <h1>Nothing to see!</h1>
 
-                <h2> Just return to the <a href="{{ path('episodes') }}">homepage</a>.
+                <h2> Just return to the <a href="{{ path('rss_feed') }}">homepage</a>.
                 </h2>
             </div>
         </div>

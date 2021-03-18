@@ -10,3 +10,4 @@
 .idea
 ###< symfony/framework-bundle ###
 /config/rss.local.yaml
+/public/image/favicon.ico

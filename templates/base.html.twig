@@ -21,7 +21,7 @@
         <script src="https://cdn.jsdelivr.net/gh/greghub/green-audio-player/dist/js/green-audio-player.min.js">
         </script>
     {% endblock %}
-    <link rel="icon" href="{{ asset('image/favicon.ico') }}" title="Favicon">
+    {% block favicon %}{% endblock %}
 </head>
 <body>
 {% block body %}{% endblock %}

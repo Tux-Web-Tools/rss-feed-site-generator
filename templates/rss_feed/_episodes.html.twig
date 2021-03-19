@@ -18,21 +18,13 @@
                         </div>
                         <div class="one-half column">
                             <p>{{ episode.description|striptags('<a>')|raw }}</p>
-                            <div class="gap fade-in">
-                                <audio class="episode-audio"
+                            <div class="episode-audio fade-in">
+                                <audio controls
                                        preload="none">
                                     <source src="{{ episode.url }}"
                                             type="audio/mpeg">
                                 </audio>
                             </div>
-                            <noscript>
-                                <audio class="episode-audio"
-                                       controls
-                                       preload="none">
-                                    <source src="{{ episode.url }}"
-                                            type="audio/mpeg">
-                                </audio>
-                            </noscript>
                             <p>Podcast: <a href="{{ episode.url }}" download>Download</a> ({{ episode.duration }} min
                                 | {{ episode.filesize|round(1, 'floor') }} MB)</p>
                         </div>
@@ -40,6 +32,12 @@
                 </div>
             {% endfor %}
             <script>
+                let audioPlayers = document.querySelectorAll('.episode-audio');
+                audioPlayers.forEach(audioPlayer => {
+                    audioPlayer.setAttribute('class', 'gap');
+                    // Remove controls from audio element
+                    audioPlayer.getElementsByTagName('audio')[0].removeAttribute('controls');
+                });
                 // Init Green Audio Player on all .gap elements
                 GreenAudioPlayer.init({
                     selector: '.gap',

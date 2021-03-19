@@ -128,15 +128,20 @@ a.mobile-hide {
 
 /* HTML5 audio player */
 .episode-audio {
+    /* A selector */
+}
+
+audio {
     width: 100%;
+    margin-bottom: 10px;
 }
 
 /* Green Audio Player */
 div.gap {
-    width: 100%;
     background-color: #eaeaea;
     box-shadow: none;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 div.fade-in {
@@ -189,7 +194,6 @@ div.fade-in {
         opacity: 1;
     }
 }
-
 
 /* Larger than phablet (also point when grid becomes active) */
 @media (min-width: 550px) {

@@ -202,6 +202,48 @@ div.fade-in {
     }
 }
 
+/* Generic items */
+
+.item-date {
+    text-align: center;
+    font-weight: bold;
+    color: #7d7d7d;
+    margin-bottom: 10px;
+}
+
+.item-title {
+    text-align: left;
+}
+
+.item-title h2 {
+    font-size: 3.0rem;
+}
+
+.item-description {
+    text-align: justify;
+}
+
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.post--card {
+    margin-bottom: 20px;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.card--container {
+    padding: 2px 16px;
+    text-align: center;
+}
+
 /* Footer */
 
 footer {

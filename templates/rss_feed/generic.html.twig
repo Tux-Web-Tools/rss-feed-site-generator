@@ -1,0 +1,33 @@
+{% extends 'rss_feed/feed_site.html.twig' %}
+
+{% block language %}{{ feed.language }}{% endblock %}
+{% block title %}{{ feed.title }} - {{ feed.description }}{% endblock %}
+{% block metatags %}
+    {{ include('rss_feed/_metatags.html.twig', {feed: feed, pageConfig: pageConfig, rssConfig: rssConfig}) }}
+{% endblock %}
+
+{% block favicon %}
+    {% if rssConfig.favicon %}
+        {% set favicon = 'image/' ~ rssConfig.favicon %}
+    {% else %}
+        {% set favicon = 'image/favicon_default.ico' %}
+    {% endif %}
+    <link rel="icon" href="{{ asset(favicon) }}" title="Favicon">
+{% endblock %}
+
+{% block hero %}
+    {{ include('rss_feed/_hero.html.twig', {feed: feed, logo: rssConfig.logo}) }}
+{% endblock %}
+
+{% block feed_contents %}
+
+    {% block items %}
+        {{ include('rss_feed/_items.html.twig', {feed: feed, logo: rssConfig.logo}) }}
+    {% endblock %}
+
+{% endblock %}
+
+{% block pagination %}{% endblock %}
+{% block footer %}
+    {{ include('rss_feed/_footer.html.twig', {rssConfig: rssConfig}) }}
+{% endblock %}

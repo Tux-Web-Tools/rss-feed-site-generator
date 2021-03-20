@@ -13,11 +13,11 @@ class RssConfig
 {
     /**
      * RSS feed type
-     * Podcast == 1, Blog == 2
+     * Podcast == 1, generic == 0
      *
-     * @var int
+     * @var bool
      */
-    private $type = 0;
+    private $type = true;
 
     /**
      * RSS Data field of item description
@@ -129,6 +129,11 @@ class RssConfig
     private $fontColor = '';
 
     /**
+     * @var bool
+     */
+    private $child_theme = false;
+
+    /**
      * @param array $rssConfigArray
      * @return RssConfig
      */
@@ -140,6 +145,7 @@ class RssConfig
         $content = $rssConfigArray['content'];
 
         $rssConfig->setType($config['type']);
+        $rssConfig->setChildTheme($config['child_theme']);
         $rssConfig->setUseContent($config['description']['use_content']);
         $rssConfig->setRssFeedUrl($config['rss_feed_url']);
         $rssConfig->setDateFormat($config['date_format']);
@@ -161,17 +167,17 @@ class RssConfig
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getType(): int
+    public function isPodcastType(): bool
     {
         return $this->type;
     }
 
     /**
-     * @param int $type
+     * @param bool $type
      */
-    public function setType(int $type): void
+    public function setType(bool $type): void
     {
         $this->type = $type;
     }
@@ -446,6 +452,22 @@ class RssConfig
     public function setFontColor(string $fontColor): void
     {
         $this->fontColor = $fontColor;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isChildTheme(): bool
+    {
+        return $this->child_theme;
+    }
+
+    /**
+     * @param bool $child_theme
+     */
+    public function setChildTheme(bool $child_theme): void
+    {
+        $this->child_theme = $child_theme;
     }
 }
 

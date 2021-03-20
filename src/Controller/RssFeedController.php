@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Episode;
 use App\Entity\Feed;
 use App\Entity\PageConfig;
+use App\Entity\Item;
 use App\Entity\RssConfig;
 use App\Service\RssConfigurator;
 use Exception;
@@ -41,6 +42,11 @@ class RssFeedController extends AbstractController
      * @var array
      */
     private $episodes = [];
+
+    /**
+     * @var array
+     */
+    private $items = [];
 
     /**
      * @var RssConfig
@@ -106,29 +112,38 @@ class RssFeedController extends AbstractController
         $limit = ($this->rssConfig->getItemLimit()) ?: self::ITEM_LIMIT;
         $pageConfig = PageConfig::createFromRequest($request, $limit, $feed);
 
-        $result = null;
-        if ($this->rssConfig->getType() == self::PODCAST) {
-
+        // Get items and template names
+        if ($this->rssConfig->isPodcastType()) {
             $this->episodes = $this->getEpisodes($feed, $pageConfig);
-
-            // Check if HTMX request
-            if (!$request->server->has('HTTP_HX_REQUEST')) {
-                $podcastTemplate = 'rss_feed/podcast.html.twig';
-            } else {
-                $podcastTemplate = 'rss_feed/_episodes.html.twig';
-            }
-            $result = $this->render(
-                $podcastTemplate,
-                $this->getPodcastTemplateVariables(
-                    new Feed($feed),
-                    $pageConfig
-                ));
+            $feedTemplate = 'podcast.html.twig';
+            $itemTemplate = '_episodes.html.twig';
         } else {
-            $result = $this->render('rss_feed/error.html.twig', [
+            $this->items = $this->getItems($feed, $pageConfig);
+            $feedTemplate = 'generic.html.twig';
+            $itemTemplate = '_items.html.twig';
+        }
+
+        // Check if HTMX request
+        if (!$request->server->has('HTTP_HX_REQUEST')) {
+            $template = $theme . $feedTemplate;
+        } else {
+            $template = $theme . $itemTemplate;
+        }
+
+        // Render appropriate template
+        $result = $this->render(
+            $template,
+            $this->getTemplateVariables(
+                new Feed($feed),
+                $pageConfig
+            )
+        );
+
+        if (!$result) {
+            $result = $this->render($theme . 'error.html.twig', [
                 'rssConfig' => $this->rssConfig
             ]);
         }
-
         return $result;
     }
 
@@ -182,20 +197,47 @@ class RssFeedController extends AbstractController
     }
 
     /**
-     * Returns an array of podcast template variables
+     * Returns generic items
+     *
+     * @param SimplePie $feed
+     * @param PageConfig $pageConfig
+     * @return array
+     */
+    private function getItems(SimplePie $feed, PageConfig $pageConfig): array
+    {
+        for ($i = $pageConfig->getStartItem(); $i < $pageConfig->getMaxItems(); $i++) {
+
+            $feedItem = $feed->get_item($i);
+
+            $item = new Item($feedItem, $this->rssConfig);
+
+            $this->items[] = $item;
+        }
+        return $this->items;
+    }
+
+    /**
+     * Returns an array of template variables
      *
      * @param Feed $feed
      * @param PageConfig $pageConfig
      * @return array
      */
-    private function getPodcastTemplateVariables(
+    private function getTemplateVariables(
         Feed $feed,
         PageConfig $pageConfig
     ): array
     {
+        if ($this->rssConfig->isPodcastType()) {
+            $name = 'episodes';
+            $items = $this->episodes;
+        } else {
+            $name = 'items';
+            $items = $this->items;
+        }
         return [
             'feed' => $feed,
-            'episodes' => $this->episodes,
+            $name => $items,
             'pageConfig' => $pageConfig,
             'rssConfig' => $this->rssConfig,
         ];

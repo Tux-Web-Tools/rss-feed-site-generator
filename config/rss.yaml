@@ -1,6 +1,7 @@
 # Copy and rename this file to ./rss.local.yaml
 config:
-  # Feed type: 1 == Podcast, 2 == Blog
+  # Feed type: 1 == Podcast, 0 == generic
+  # Rss site generator works best with podcast feeds
   type: 1
   # Enable child theme 0 == disabled, 1 == enabled
   # Copy templates/rss_feed/ to templates/rss_feed_child/

@@ -32,7 +32,13 @@ cp rss.yaml rss.local.yaml
 
 ### Available configuration items
 
-The only required parameters are _rss_feed_url_ containing the url of the RSS feed and _type_ to determine the site to be generated: Podcast _1_ is the default type. To render a more generic RSS feed _type_ should be set to _0_.
+See the [rss.yaml](/config/rss.yaml) file to view all available configurations options.
+
+#### Required configuration
+
+The only required parameters are _rss_feed_url_ containing the url of the RSS feed and _type_ to determine the type of site to be generated: Podcast _1_ is the default type. To render a more generic RSS feed, _type_ should be set to _0_.
+
+#### Further configuration
 
 The parameter _description.use_content_ is used to define which property is used to fetch the item's (episode/item) description.
 
@@ -42,58 +48,7 @@ To display "legal information" in the footer, _copyright_, _imprint_url_ and _im
 
 If the content originates from another website, a _canonical_link_ can be added.
 
-```yaml
-config:
-  # Url of podcast/blog rss feed
-  rss_feed_url: ''
-  # Feed type: 1 == Podcast, 0 == generic
-  # Rss site generator works best with podcast feeds
-  type: 1
-  # Enable child theme 0 == disabled, 1 == enabled
-  # Copy templates/rss_feed/ to templates/rss_feed_child/
-  # Adjust child theme
-  child_theme: 0
-  # How many items are displayed per page
-  item_limit: 10
-  # RSS data field for description: 1 == content, 0 == description
-  # The field description is usually shorter and does rarely contain HTML tags
-  description:
-    use_content: 1
-  # Possible values: https://twig.symfony.com/doc/2.x/filters/date.html
-  date_format: 'Y-m-d'
-  # Used to calculate the duration of a audio file
-  bitrate_kbps: 192
-content:
-  # File name of custom header image, place in /public/image
-  logo: ''
-  # File name of custom favicon, place in /public/image
-  favicon: ''
-  header:
-    # Overwrites the feed title of the header
-    title: ''
-    # Overwrites the feed description of the header
-    description: ''
-    # Overwrites the background color of the header (Hex code e.g. #333)
-    background_color: ''
-    # Overwrites the font color of the header (Hex code e.g. #333)
-    font_color: ''
-  footer:
-    # Displayed in footer
-    copyright: ''
-    # Rendered in footer, should include http:// or https://
-    imprint_url: ''
-    # Displayed in footer
-    imprint_link_name: ''
-  # Url to original website
-  canonical_link: ''
-  messages:
-    # Displayed if feed could not be fetched
-    feed_error: 'No valid rss feed was supplied.'
-    # Displayed if no results were found
-    no_results: 'No results found.'
-```
-
-### Child theme
+#### Child theme
 
 The usage of a custom child theme can be enabled by setting _child_theme_ to _1_. Copy the original theme and rename it to _rss_feed_child_.
 

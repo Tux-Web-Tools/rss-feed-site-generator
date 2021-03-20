@@ -1,5 +1,7 @@
 # Copy and rename this file to ./rss.local.yaml
 config:
+  # Url of podcast/blog rss feed
+  rss_feed_url: ''
   # Feed type: 1 == Podcast, 0 == generic
   # Rss site generator works best with podcast feeds
   type: 1
@@ -7,22 +9,20 @@ config:
   # Copy templates/rss_feed/ to templates/rss_feed_child/
   # Adjust child theme
   child_theme: 0
-  # RSS Data field of description: 1 == content, 0 == description
-  # The field description is usually shorter and does not contain HTML tags
+  # How many items are displayed per page
+  item_limit: 10
+  # RSS data field for description: 1 == content, 0 == description
+  # The field description is usually shorter and does rarely contain HTML tags
   description:
     use_content: 1
-  # Url of podcast/blog rss feed
-  rss_feed_url: ''
   # Possible values: https://twig.symfony.com/doc/2.x/filters/date.html
   date_format: 'Y-m-d'
   # Used to calculate the duration of a audio file
   bitrate_kbps: 192
-  # How many items are displayed per page
-  item_limit: 10
 content:
   # File name of custom header image, place in /public/image
   logo: ''
-  # File name of custom favicon image, place in /public/image
+  # File name of custom favicon, place in /public/image
   favicon: ''
   header:
     # Overwrites the feed title of the header
@@ -48,4 +48,4 @@ content:
     # Displayed if no results were found
     no_results: 'No results found.'
 
-# Important: most of the items have fallbacks in the code
+# Important: Most of the items have fallbacks in RssFeedController.

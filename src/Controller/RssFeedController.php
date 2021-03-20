@@ -93,9 +93,11 @@ class RssFeedController extends AbstractController
     {
         $rssFeedUrl = ($this->rssConfig->getRssFeedUrl()) ?: $feedUrl;
 
+        // Get required theme
+        $theme = ($this->rssConfig->isChildTheme()) ? 'rss_feed_child/' : 'rss_feed/';
 
         if (!($feed = $this->fetchFeed($rssFeedUrl))) {
-            return $this->render('rss_feed/error.html.twig', [
+            return $this->render($theme . 'error.html.twig', [
                 'rssConfig' => $this->rssConfig
             ]);
         }

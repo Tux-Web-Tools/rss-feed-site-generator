@@ -11,3 +11,4 @@
 ###< symfony/framework-bundle ###
 /config/rss.local.yaml
 /public/image/favicon.ico
+/templates/rss_feed_child/*

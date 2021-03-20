@@ -2,6 +2,10 @@
 config:
   # Feed type: 1 == Podcast, 2 == Blog
   type: 1
+  # Enable child theme 0 == disabled, 1 == enabled
+  # Copy templates/rss_feed/ to templates/rss_feed_child/
+  # Adjust child theme
+  child_theme: 0
   # RSS Data field of description: 1 == content, 0 == description
   # The field description is usually shorter and does not contain HTML tags
   description:

@@ -47,7 +47,7 @@ cp rss.yaml rss.local.yaml
 
 ### Available configuration items
 
-See the [rss.yaml](/config/rss.yaml) file to view all available configurations options.
+See the [rss.yaml](https://gitlab.com/tux-web-tools/rss-feed-site-generator/-/blob/master/config/rss.yaml) file to view all available configurations options.
 
 #### Required configuration
 
@@ -100,7 +100,7 @@ The routing is defined in /config/routes.yaml. The default path for the applicat
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://gitlab.com/tux-web-tools/rss-feed-site-generator/-/blob/master/LICENSE) file for details.
 
 ## Acknowledgments
 

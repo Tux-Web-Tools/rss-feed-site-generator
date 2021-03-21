@@ -4,18 +4,33 @@ Symfony 5 application to generate a website for a given RSS feed, works best wit
 
 ## Installation
 
+### Composer (preferred method)
+
+```shell script
+composer create-project tux-web-tools/rss-feed-site-generator my_project_name
+```
+
+This creates the project and the mandatory configuration file.
+
+### Git/Source
+
 Clone the repo or download the source code. And install via composer in the root of the project directory:
 
 Development
 ```shell script
 composer install
 ```
-
 Production
 ```shell script
 composer install --no-dev --optimize-autoloader
+```
+
+### Set production environment
+
+```shell script
 composer dump-env prod
 ```
+
 Clear cache if needed
 ```shell script
 php bin/console cache:clear
@@ -23,7 +38,7 @@ php bin/console cache:clear
 
 ## Configuration
 
-The global configuration file needs to be copied and renamed:
+The global configuration file needs to be copied and renamed, if you did not use composer to create the project.
 
 ```shell script
 cd config

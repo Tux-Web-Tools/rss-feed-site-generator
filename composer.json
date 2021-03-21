@@ -3,7 +3,7 @@
     "description": "Generate sites from RSS feeds",
     "type": "project",
     "license": "MIT",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {

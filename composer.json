@@ -56,6 +56,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "post-create-project-cmd": [
+            "php -r \"copy('config/rss.yaml', 'config/rss.local.yaml');\""
         ]
     },
     "conflict": {

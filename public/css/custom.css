@@ -43,7 +43,7 @@ div.container + div.margin-bottom {
     border-radius: 50%;
 }
 
-.hero-text div {
+.hero-text .feed-title-description {
     text-align: left;
     display: none;
 }
@@ -57,7 +57,7 @@ div.container + div.margin-bottom {
     .hero-text img {
         margin-right: 10px
     }
-    .hero-text div {
+    .hero-text .feed-title-description {
         text-align: left;
         display: block;
     }

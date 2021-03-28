@@ -116,6 +116,22 @@ class Episode
     }
 
     /**
+     * @return mixed
+     */
+    public function getNumber()
+    {
+        return $this->item->get_item_tags(SIMPLEPIE_NAMESPACE_ITUNES, 'episode')[0]['data'];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSeason()
+    {
+        return $this->item->get_item_tags(SIMPLEPIE_NAMESPACE_ITUNES, 'season')[0]['data'];
+    }
+
+    /**
      * @return float
      */
     public function getFilesize(): float

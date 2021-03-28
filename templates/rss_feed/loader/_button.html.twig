@@ -1,0 +1,15 @@
+{% set pages = pageConfig.maxPages - pageConfig.page %}
+{% if pageConfig.maxPages > 1 and pages > 0  %}
+    {% set nextPage = pageConfig.page + 1 %}
+<div class="row loader" style="margin-bottom: 10px">
+    <div class="twelve column">
+        <button class='btn'
+        hx-get="?page={{ nextPage }}"
+        hx-target=".loader"
+        hx-swap="outerHTML"
+        style="display: block; margin: 0 auto;">
+        Load More
+        </button>
+    </div>
+</div>
+{% endif %}

@@ -1,5 +1,5 @@
 {% block episodes %}
-    <div class="container">
+
         {% if rssConfig.dateFormat %}
             {% set dateFormat = rssConfig.dateFormat %}
         {% else %}
@@ -31,25 +31,12 @@
                     </div>
                 </div>
             {% endfor %}
-            <script>
-                let audioPlayers = document.querySelectorAll('.episode-audio');
-                audioPlayers.forEach(audioPlayer => {
-                    audioPlayer.setAttribute('class', 'gap');
-                    // Remove controls from audio element
-                    audioPlayer.getElementsByTagName('audio')[0].removeAttribute('controls');
-                });
-                // Init Green Audio Player on all .gap elements
-                GreenAudioPlayer.init({
-                    selector: '.gap',
-                    stopOthersOnPlay: true
-                });
-            </script>
+            {% block loader %}{% endblock %}
         {% else %}
             {{ rssConfig.noResults }}
         {% endif %}
-    </div>
 {% endblock %}
 
 {% block pagination %}
-    {{ include('rss_feed/_pagination.html.twig', {pageConfig: pageConfig}) }}
+    {{ include('rss_feed/loader/_pagination.html.twig', {pageConfig: pageConfig}) }}
 {% endblock %}

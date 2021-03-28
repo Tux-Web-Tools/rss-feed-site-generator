@@ -20,11 +20,16 @@
 {% endblock %}
 
 {% block feed_contents %}
-
+<div class="container" id="feed-content">
     {% block episodes %}
         {{ include('rss_feed/_episodes.html.twig', {feed: feed, logo: rssConfig.logo}) }}
     {% endblock %}
-
+</div>
+    <script>
+        htmx.onLoad(function() {
+            rssPlayer();
+        });
+    </script>
 {% endblock %}
 
 {% block pagination %}{% endblock %}

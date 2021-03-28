@@ -17,7 +17,7 @@
                             <h2>{{ episode.title }}</h2> <br>
                         </div>
                         <div class="one-half column">
-                            <p>{{ episode.description|striptags('<a>')|raw }}</p>
+                            <p>{{ episode.content|striptags('<a>')|raw }}</p>
                             <div class="episode-audio fade-in">
                                 <audio controls
                                        preload="none">

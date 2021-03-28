@@ -11,10 +11,6 @@ config:
   child_theme: 0
   # How many items are displayed per page
   item_limit: 10
-  # RSS data field for description: 1 == content, 0 == description
-  # The field description is usually shorter and does rarely contain HTML tags
-  description:
-    use_content: 1
   # Possible values: https://twig.symfony.com/doc/2.x/filters/date.html
   date_format: 'Y-m-d'
   # Used to calculate the duration of a audio file

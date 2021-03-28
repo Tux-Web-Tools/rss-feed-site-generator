@@ -60,16 +60,15 @@ class Episode
      */
     public function getDescription(): string
     {
-        if (
-            $this->item->get_content() &&
-            $this->rssConfig->isUseContent()
-        ) {
-            $description = $this->item->get_content();
-        } else {
-            $description = $this->item->get_description();
-        }
+        return $this->item->get_description();
+    }
 
-        return $description;
+    /**
+     * @return string
+     */
+    public function getContent(): string
+    {
+        return $this->item->get_content();
     }
 
     /**

@@ -146,7 +146,6 @@ class RssConfig
 
         $rssConfig->setType($config['type']);
         $rssConfig->setChildTheme($config['child_theme']);
-        $rssConfig->setUseContent($config['description']['use_content']);
         $rssConfig->setRssFeedUrl($config['rss_feed_url']);
         $rssConfig->setDateFormat($config['date_format']);
         $rssConfig->setBitrateKbps($config['bitrate_kbps']);

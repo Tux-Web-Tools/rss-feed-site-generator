@@ -13,3 +13,5 @@
 /public/image/favicon.ico
 /templates/rss_feed_child/
 /templates/rss_feed_child/*
+/public/css/custom.css
+/public/js/custom.js

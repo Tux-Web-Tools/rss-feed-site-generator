@@ -55,8 +55,6 @@ The only required parameters are _rss_feed_url_ containing the url of the RSS fe
 
 #### Further configuration
 
-The parameter _description.use_content_ is used to define which property is used to fetch the item's (episode/item) description.
-
 To display a custom logo different from the one the RSS feed provides, an image file can be placed in _/public/image_, the file name including file extension needs to be added to _logo_. The header can be customized further by overwriting title, description, background and font color in rss.local.yaml. It is also possible to customize the favicon via _favicon_.
 
 To display "legal information" in the footer, _copyright_, _imprint_url_ and _imprint_link_name_ need to be provided. 

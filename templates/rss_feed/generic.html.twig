@@ -20,11 +20,11 @@
 {% endblock %}
 
 {% block feed_contents %}
-
+<div class="container" id="feed-content">
     {% block items %}
         {{ include('rss_feed/_items.html.twig', {feed: feed, logo: rssConfig.logo}) }}
     {% endblock %}
-
+</div>
 {% endblock %}
 
 {% block pagination %}{% endblock %}

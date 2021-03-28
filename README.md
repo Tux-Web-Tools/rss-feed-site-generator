@@ -89,7 +89,7 @@ The main templates required by the application:
 
 These templates must be present, their contents however can be adjusted and extended to customize the generated site's appearance.
 
-To add custom CSS and JS just place those files inside the corresponding directory in public/css or public/js and copy and paste the _stylesheets_ and _javascripts_ twig blocks from base.html.twig in your child theme and add the custom files.
+To add custom.css and custom.js place those files inside the corresponding directory in public/css or public/js and copy and paste the _stylesheets_ and _javascripts_ twig blocks from base.html.twig in your child theme and add the custom files.
 
 ## Routing
 
